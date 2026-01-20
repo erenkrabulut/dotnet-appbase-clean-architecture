@@ -118,5 +118,6 @@ namespace core.Persistence.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return entities;
         }
+
     }
 }
