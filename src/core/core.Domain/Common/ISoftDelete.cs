@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace core.Domain.Common
 {
-    public interface IAuditable
+    public interface ISoftDelete
     {
-        DateTime CreatedAt { get; set; }
-        DateTime? UpdatedAt { get; set;  }
+        DateTime? DeletedAt { get; set; }
     }
 }
