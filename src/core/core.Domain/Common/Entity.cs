@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace core.Domain.Common
 {
-    public class Entity<T> : IAuditable
+    public class Entity<T> : IAuditable, ISoftDelete
     {
         public T Id { get; set; }
         public DateTime CreatedAt {get; set; }
