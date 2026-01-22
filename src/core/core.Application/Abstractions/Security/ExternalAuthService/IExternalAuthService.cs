@@ -9,6 +9,6 @@ namespace core.Application.Abstractions.Security.ExternalLoginService
 {
     public interface IExternalAuthService
     {
-        Task<ExternalAuthResult> AuthenticateAsync(string token);
+        Task<ExternalAuthResult> GoogleLoginAsync(string idToken, string ipAddress, CancellationToken cancellationToken = default);
     }
 }
