@@ -10,7 +10,7 @@ namespace core.Application.Abstractions.Security.Token
 {
     public interface ITokenService
     {
-        AccessToken CreateAccessToken(User user, IEnumerable<string> roles, IEnumerable<string> permissions);
+        AccessToken CreateAccessToken(JwtClaims claims);
         RefreshToken CreateRefreshToken(Guid userId, string ipAddress);
     }
 }
