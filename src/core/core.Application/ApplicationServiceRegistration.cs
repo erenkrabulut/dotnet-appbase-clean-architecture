@@ -12,6 +12,8 @@ namespace core.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegistration).Assembly));
+
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
             return services;
         }
