@@ -2,7 +2,6 @@
 using core.Application.Abstractions.Security.UserContext;
 using Microsoft.AspNetCore.Http;
 
-
 namespace core.Infrastructure.Logging
 {
 
@@ -31,7 +30,7 @@ namespace core.Infrastructure.Logging
                 Permissions = _currentUser.Permissions,
 
                 IpAddress = ctx?.Connection.RemoteIpAddress?.ToString(),
-                UserAgent = ctx?.Request.Headers["User-Agent"].ToString(),
+                UserAgent = ctx?.Request.Headers.TryGetValue("User-Agent", out var ua) == true ? ua.ToString() : null,
 
                 RequestPath = ctx?.Request.Path.ToString(),
                 HttpMethod = ctx?.Request.Method
