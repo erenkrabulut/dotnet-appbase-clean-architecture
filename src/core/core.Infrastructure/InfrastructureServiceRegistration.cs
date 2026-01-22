@@ -1,7 +1,9 @@
-﻿using core.Application.Abstractions.Security.ExternalLoginService;
+﻿using core.Application.Abstractions.Logging;
+using core.Application.Abstractions.Security.ExternalLoginService;
 using core.Application.Abstractions.Security.Hashing;
 using core.Application.Abstractions.Security.Token;
 using core.Application.Abstractions.Security.UserContext;
+using core.Infrastructure.Logging;
 using core.Infrastructure.Security.ExternalAuthService;
 using core.Infrastructure.Security.Hashing;
 using core.Infrastructure.Security.Tokens;
@@ -30,6 +32,9 @@ namespace core.Infrastructure
             services.AddSingleton<ITokenService, JwtTokenService>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddScoped<IExternalAuthService, GoogleAuthService>();
+
+            services.AddSingleton<ILogContextAccessor, HttpLogContextAccessor>();
+            services.AddSingleton<ILoggerService, LoggerService>();
 
             return services;
         }

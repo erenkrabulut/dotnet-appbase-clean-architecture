@@ -26,6 +26,7 @@ namespace core.Infrastructure.Security.Tokens
             var tokenClaims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, claims.UserId.ToString()),
+                new(ClaimTypes.NameIdentifier, claims.UserId.ToString()),
                 new(JwtRegisteredClaimNames.Email, claims.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new("typ", "access"),
