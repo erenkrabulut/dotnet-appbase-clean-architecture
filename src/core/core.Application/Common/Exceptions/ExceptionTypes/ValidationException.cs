@@ -1,4 +1,5 @@
 ﻿using core.Domain.Errors;
+using FluentValidation.Results;
 
 
 
@@ -6,6 +7,20 @@ namespace core.Application.Common.Exceptions.ExceptionTypes
 {
     public sealed class ValidationException : AppException
     {
-        public ValidationException(Error error) : base(error) { }
+        public IReadOnlyDictionary<string, string[]> FieldErrors { get; }
+
+        public ValidationException(IEnumerable<ValidationFailure> failures)
+            : base(Errors.Validation.ValidationError)
+        {
+            FieldErrors = failures
+                .GroupBy(f => f.PropertyName ?? string.Empty)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.ErrorMessage)
+                          .Where(m => !string.IsNullOrWhiteSpace(m))
+                          .Distinct()
+                          .ToArray()
+                );
+        }
     }
 }
