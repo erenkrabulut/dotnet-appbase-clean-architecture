@@ -22,5 +22,11 @@ namespace core.Domain.Errors
             public static readonly Error NotAuthorized =
                 new("AUTH.NOT_AUTHORIZED", "User is not authorized for this operation.", ErrorType.Authorization);
         }
+
+        public static class Validation
+        {
+            public static readonly Error ValidationError =
+                new("VALIDATION_ERROR", "Validation failed.", ErrorType.Validation);
+        }
     }
 }
