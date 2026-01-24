@@ -10,6 +10,10 @@ namespace core.Application.Abstractions.Repositories.Identity
 {
     public interface IRefreshTokenRepository : IRepository<RefreshToken, Guid>
     {
-        Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken = default);
+        Task<RefreshToken?> GetByIdAsync(Guid id, CancellationToken ct = default);
+
+        Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken ct = default);
+
+        Task<RefreshToken?> GetByTokenHashAsync(string tokenHash, CancellationToken ct = default);
     }
 }

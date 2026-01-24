@@ -15,9 +15,21 @@ namespace core.Persistence.Repositories.Identity
     {
         public RefreshTokenRepository(BaseDbContext context) : base(context) { }
 
-        public Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken = default)
+        public async Task<RefreshToken?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
-            return _set.FirstOrDefaultAsync(x => x.Token == token, cancellationToken);
+            return await _context.Set<RefreshToken>()
+                .FirstOrDefaultAsync(x => x.Id == id, ct);
+        }
+
+        public async Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken ct = default)
+        {
+            return await GetByTokenHashAsync(token, ct);
+        }
+
+        public async Task<RefreshToken?> GetByTokenHashAsync(string tokenHash, CancellationToken ct = default)
+        {
+            return await _context.Set<RefreshToken>()
+                .FirstOrDefaultAsync(x => x.Token == tokenHash, ct);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace core.Persistence.Services.Identity
 
         public Task<RefreshToken?> TryGetByIdAsync(Guid id, CancellationToken ct = default)
         {
-            return _refreshTokenRepository.GetAsync(t => t.Id == id, cancellationToken: ct);
+            return _refreshTokenRepository.GetByIdAsync(id, ct);
         }
 
         public async Task<RefreshToken> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -35,7 +35,7 @@ namespace core.Persistence.Services.Identity
 
         public Task<RefreshToken?> TryGetByTokenAsync(string token, CancellationToken ct = default)
         {
-            return _refreshTokenRepository.GetByTokenAsync(token, ct);
+            return TryGetByTokenHashAsync(token, ct);
         }
 
         public async Task<RefreshToken> GetByTokenAsync(string token, CancellationToken ct = default)
@@ -47,17 +47,26 @@ namespace core.Persistence.Services.Identity
             return existing;
         }
 
+        public async Task<RefreshToken?> TryGetByTokenHashAsync(string tokenHash, CancellationToken ct = default)
+        {
+            return await _refreshTokenRepository.GetByTokenHashAsync(tokenHash, ct);
+        }
+
         public async Task<RefreshToken> CreateAsync(RefreshToken refreshToken, CancellationToken ct = default)
         {
             await _refreshTokenRepository.AddAsync(refreshToken, ct);
             return refreshToken;
         }
 
-        public async Task<RefreshToken> RevokeAsync(string token, CancellationToken ct = default)
+        public async Task<RefreshToken> RevokeAsync(string tokenHash, string? ipAddress, string? reason, CancellationToken ct = default)
         {
-            RefreshToken refreshToken = await GetByTokenAsync(token, ct);
+            RefreshToken refreshToken = await GetByTokenAsync(tokenHash, ct);
 
-            refreshToken.Revoked = DateTime.UtcNow;
+            if (refreshToken.IsRevoked)
+                return refreshToken;
+
+            refreshToken.Revoke(ipAddress: ipAddress ?? string.Empty, reason: reason ?? "Revoked");
+
             refreshToken = await _refreshTokenRepository.UpdateAsync(refreshToken, ct);
 
             return refreshToken;
