@@ -2,6 +2,7 @@
 using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Domain.Entities.Identity;
+using core.Domain.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,19 +59,27 @@ namespace core.Persistence.Services.Identity
             return refreshToken;
         }
 
-        public async Task<RefreshToken> RevokeAsync(string tokenHash, string? ipAddress, string? reason, CancellationToken ct = default)
+        public async Task<RefreshToken> RevokeAsync(
+            string tokenHash,
+            string? ipAddress,
+            string? reason,
+            string? replacedByTokenHash = null,
+            CancellationToken ct = default)
         {
-            RefreshToken refreshToken = await GetByTokenAsync(tokenHash, ct);
+            RefreshToken? refreshToken = await GetByTokenAsync(tokenHash, ct);
 
             if (refreshToken.IsRevoked)
                 return refreshToken;
 
-            refreshToken.Revoke(ipAddress: ipAddress ?? string.Empty, reason: reason ?? "Revoked");
+            refreshToken.Revoke(
+                ipAddress: ipAddress ?? string.Empty,
+                reason: string.IsNullOrWhiteSpace(reason) ? "Revoked" : reason!,
+                replacedByToken: replacedByTokenHash);
 
             refreshToken = await _refreshTokenRepository.UpdateAsync(refreshToken, ct);
-
             return refreshToken;
         }
+        
 
         public async Task DeleteAsync(Guid id, bool isSoftDelete = true, CancellationToken ct = default)
         {

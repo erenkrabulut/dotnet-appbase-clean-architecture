@@ -15,6 +15,7 @@ namespace core.Domain.Errors
         Business,
         External,
         Persistence,
-        Internal
+        Internal,
+        Identity
     }
 }

@@ -11,6 +11,7 @@ namespace core.Application.Abstractions.Security.Token
     public interface ITokenService
     {
         AccessToken CreateAccessToken(JwtClaims claims);
-        RefreshToken CreateRefreshToken(Guid userId, string ipAddress);
+        RefreshTokenResult CreateRefreshToken(Guid userId, string ipAddress);
+        string HashRefreshToken(string rawToken);
     }
 }

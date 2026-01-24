@@ -34,6 +34,8 @@ namespace core.Persistence
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IUserLoginRepository, UserLoginRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 
             // Services (Identity) - if you decided services live in Persistence
             services.AddScoped<IUserService, UserService>();
@@ -41,6 +43,7 @@ namespace core.Persistence
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IUserLoginService, UserLoginService>();
+            services.AddScoped<IIdentityClaimsService, IdentityClaimsService>();
 
             return services;
         }

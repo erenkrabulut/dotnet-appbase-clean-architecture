@@ -66,14 +66,33 @@ namespace core.Infrastructure.Security.Tokens
             return new AccessToken(tokenValue, expires);
         }
 
-        public RefreshToken CreateRefreshToken(Guid userId, string ipAddress)
+        public RefreshTokenResult CreateRefreshToken(Guid userId, string ipAddress)
         {
-            var rawToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-            var hashed = SHA256.HashData(Encoding.UTF8.GetBytes(rawToken));
-            var token = Convert.ToBase64String(hashed);
+            var rawToken = GenerateRawRefreshToken();
+            var tokenHash = HashRefreshToken(rawToken);
             var expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenTTL);
 
-            return new RefreshToken( userId, token, expires, ipAddress );
+            var entity = new RefreshToken(
+                userId: userId,
+                token: tokenHash,
+                expires: expires,
+                createdByIp: ipAddress);
+
+            return new RefreshTokenResult(
+                RawToken: rawToken,
+                TokenHash: tokenHash,
+                ExpiresAt: expires,
+                Entity: entity);
         }
+
+        public string HashRefreshToken(string rawToken)
+        {
+            var hashed = SHA256.HashData(Encoding.UTF8.GetBytes(rawToken));
+            return Convert.ToBase64String(hashed);
+        }
+
+        private static string GenerateRawRefreshToken()
+            => Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+
     }
 }
