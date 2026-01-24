@@ -1,0 +1,26 @@
+﻿using core.Application.Common.Responses;
+using core.Domain.Entities.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace core.Application.Abstractions.Services.Identity
+{
+    public interface IRoleService
+    {
+        Task<Role?> TryGetByIdAsync(Guid id, CancellationToken ct = default);
+        Task<Role> GetByIdAsync(Guid id, CancellationToken ct = default);
+
+        Task<Role?> TryGetByNameAsync(string name, CancellationToken ct = default);
+        Task<Role> GetByNameAsync(string name, CancellationToken ct = default);
+
+        Task EnsureNameUniqueAsync(string name, CancellationToken ct = default);
+
+        Task<Role> CreateAsync(Role role, CancellationToken ct = default);
+        Task UpdateAsync(Role role, CancellationToken ct = default);
+
+        Task DeleteAsync(Guid id, bool isSoftDelete = true, CancellationToken ct = default);
+    }
+}

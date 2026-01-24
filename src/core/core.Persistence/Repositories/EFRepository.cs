@@ -1,4 +1,4 @@
-﻿using core.Application.Repositories;
+﻿using core.Application.Abstractions.Repositories;
 using core.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,7 +1,8 @@
-﻿using core.Application.Abstractions.Security.ExternalAuthService;
+﻿using core.Application.Abstractions.Repositories.Identity;
+using core.Application.Abstractions.Security.ExternalAuthService;
 using core.Application.Abstractions.Security.ExternalLoginService;
 using core.Application.Abstractions.Security.Token;
-using core.Application.Repositories.Identity;
+using core.Application.Abstractions.Services.Identity;
 using Google.Apis.Auth;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,13 @@ using System.Threading.Tasks;
 namespace core.Infrastructure.Security.ExternalAuthService
 {
 
-    /// <summary>
-    /// UPDATE to Replace UserRepository with UserService to decouple implementation of Clean Arch.
-    /// </summary>
     public class GoogleAuthService : IExternalAuthService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public GoogleAuthService(IUserRepository externalUserService)
+        public GoogleAuthService(IUserService userService)
         {
-            _userRepository = externalUserService;
+            _userService = userService;
         }
 
         public async Task<ExternalAuthResult> GoogleLoginAsync(
@@ -41,7 +39,7 @@ namespace core.Infrastructure.Security.ExternalAuthService
             }
 
             var email = payload.Email;
-            var user = await _userRepository.GetByEmailAsync(email, cancellationToken);
+            var user = await _userService.GetByEmailAsync(email, cancellationToken);
 
             if (user != null)
             {
