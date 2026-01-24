@@ -1,4 +1,4 @@
-﻿using core.Application.Repositories.Identity;
+﻿using core.Application.Abstractions.Repositories.Identity;
 using core.Domain.Entities.Identity;
 using core.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;

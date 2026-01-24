@@ -39,8 +39,6 @@ namespace core.Infrastructure
             services.AddSingleton<ILogContextAccessor, HttpLogContextAccessor>();
             services.AddSingleton<ILoggerService, LoggerService>();
 
-            services.AddScoped<IUnitOfWork, EfUnitOfWork<BaseDbContext>>();
-
             return services;
         }
     }
