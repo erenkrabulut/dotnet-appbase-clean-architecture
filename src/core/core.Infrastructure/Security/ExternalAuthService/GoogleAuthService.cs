@@ -39,7 +39,7 @@ namespace core.Infrastructure.Security.ExternalAuthService
             }
 
             var email = payload.Email;
-            var user = await _userService.GetByEmailAsync(email, cancellationToken);
+            var user = await _userService.TryGetByEmailAsync(email, cancellationToken);
 
             if (user != null)
             {
