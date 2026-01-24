@@ -16,9 +16,11 @@ namespace core.Application.Abstractions.Services.Identity
         Task<RefreshToken?> TryGetByTokenAsync(string token, CancellationToken ct = default);
         Task<RefreshToken> GetByTokenAsync(string token, CancellationToken ct = default);
 
+        Task<RefreshToken?> TryGetByTokenHashAsync(string tokenHash, CancellationToken ct = default);
+
         Task<RefreshToken> CreateAsync(RefreshToken refreshToken, CancellationToken ct = default);
 
-        Task<RefreshToken> RevokeAsync(string token, CancellationToken ct = default);
+        Task<RefreshToken> RevokeAsync(string tokenHash, string? ipAddress, string? reason, CancellationToken ct = default);
 
         Task DeleteAsync(Guid id, bool isSoftDelete = true, CancellationToken ct = default);
     }
