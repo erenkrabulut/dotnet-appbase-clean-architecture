@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Auth\Constants\" />
-    <Folder Include="Features\Auth\Commands\" />
     <Folder Include="Features\Auth\Queries\" />
   </ItemGroup>
 

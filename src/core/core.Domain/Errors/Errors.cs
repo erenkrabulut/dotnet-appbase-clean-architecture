@@ -35,6 +35,15 @@ namespace core.Domain.Errors
                 new("VALIDATION.VALIDATION_FAILED", "Validation failed.", ErrorType.Validation);
         }
 
+        public static class Identity
+        {
+            public static readonly Error RefreshTokenNotFound =
+                new("IDENTITY.REFRESH_TOKEN_NOT_FOUND", "Refresh token is not found.", ErrorType.Identity);
+
+            public static readonly Error UserNotFound =
+                new("IDENTITY.USER_NOT_FOUND", "User is not found.", ErrorType.Identity);
+        }
+
 
     }
 }
