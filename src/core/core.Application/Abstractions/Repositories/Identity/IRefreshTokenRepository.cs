@@ -15,5 +15,7 @@ namespace core.Application.Abstractions.Repositories.Identity
         Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken ct = default);
 
         Task<RefreshToken?> GetByTokenHashAsync(string tokenHash, CancellationToken ct = default);
+
+        Task RevokeAllByUserIdAsync(Guid userId, string ipAddress, string reason, CancellationToken ct = default);
     }
 }
