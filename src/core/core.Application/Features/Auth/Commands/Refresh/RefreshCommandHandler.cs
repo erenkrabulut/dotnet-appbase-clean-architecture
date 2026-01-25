@@ -35,8 +35,8 @@ namespace core.Application.Features.Auth.Commands.Refresh
             _identityClaimsService = identityClaimsService;
         }
 
-        public async Task<Response<TokenPairDto>> Handle(RefreshCommand command, CancellationToken cancellationToken = default) {
-            string presentedHash = _tokenService.HashRefreshToken(command.RefreshToken);
+        public async Task<Response<TokenPairDto>> Handle(RefreshCommand request, CancellationToken cancellationToken = default) {
+            string presentedHash = _tokenService.HashRefreshToken(request.RefreshToken);
 
             var existing = await _refreshTokenService.TryGetByTokenHashAsync(presentedHash, cancellationToken);
             if (existing == null)
@@ -57,13 +57,13 @@ namespace core.Application.Features.Auth.Commands.Refresh
 
 
 
-            var tokenResult = _tokenService.CreateRefreshToken(user.Id, ipAddress: command.IpAddress ?? string.Empty);
+            var tokenResult = _tokenService.CreateRefreshToken(user.Id, ipAddress: request.IpAddress ?? string.Empty);
 
             existing.ReplacedByToken = tokenResult.TokenHash;
 
             await _refreshTokenService.RevokeAsync(
                 tokenHash: existing.Token,
-                ipAddress: command.IpAddress,
+                ipAddress: request.IpAddress,
                 reason: "Rotated",
                 replacedByTokenHash: existing.ReplacedByToken,
                 ct: cancellationToken);
