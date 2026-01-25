@@ -11,6 +11,8 @@ namespace core.Domain.Entities.Identity
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
+        public string? PasswordHash { get; set; }
+
 
         public virtual ICollection<UserLogin> Logins { get; set; } = null!;
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
@@ -23,6 +25,15 @@ namespace core.Domain.Entities.Identity
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+        }
+
+        public User(string firstName, string lastName, string email, string passwordHash)
+        {
+            Id = Guid.NewGuid();
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            PasswordHash = passwordHash;
         }
 
     }
