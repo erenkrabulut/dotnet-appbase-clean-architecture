@@ -31,5 +31,19 @@ namespace core.Persistence.Repositories.Identity
             return await _context.Set<RefreshToken>()
                 .FirstOrDefaultAsync(x => x.Token == tokenHash, ct);
         }
+
+        public async Task RevokeAllByUserIdAsync(Guid userId, string ipAddress, string reason, CancellationToken ct = default)
+        {
+            var now = DateTime.UtcNow;
+
+            await _context.Set<RefreshToken>()
+                .Where(x => x.UserId == userId && x.Revoked == null && x.Expires > now)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(x => x.Revoked, _ => now)
+                    .SetProperty(x => x.RevokedByIp, _ => ipAddress)
+                    .SetProperty(x => x.ReasonRevoked, _ => reason)
+                    .SetProperty(x => x.ReplacedByToken, _ => null),
+                 ct);
+        }
     }
 }

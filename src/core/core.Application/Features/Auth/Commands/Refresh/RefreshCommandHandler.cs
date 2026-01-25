@@ -1,4 +1,5 @@
-﻿using core.Application.Abstractions.Security.Token;
+﻿using core.Application.Abstractions.Logging;
+using core.Application.Abstractions.Security.Token;
 using core.Application.Abstractions.Security.Tokens;
 using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
@@ -22,17 +23,20 @@ namespace core.Application.Features.Auth.Commands.Refresh
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
         private readonly IIdentityClaimsService _identityClaimsService;
+        private readonly ILoggerService _loggerService;
 
         public RefreshCommandHandler(
             IRefreshTokenService refreshTokenService,
             IUserService userService,
             ITokenService tokenService,
-            IIdentityClaimsService identityClaimsService)
+            IIdentityClaimsService identityClaimsService,
+            ILoggerService loggerService)
         {
             _refreshTokenService = refreshTokenService;
             _userService = userService;
             _tokenService = tokenService;
             _identityClaimsService = identityClaimsService;
+            _loggerService = loggerService;
         }
 
         public async Task<Response<TokenPairDto>> Handle(RefreshCommand request, CancellationToken cancellationToken = default) {
@@ -42,13 +46,28 @@ namespace core.Application.Features.Auth.Commands.Refresh
             if (existing == null)
                 throw new NotFoundException(Errors.Identity.RefreshTokenNotFound);
 
-            if(existing.IsRevoked)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+            if (existing.IsRevoked) { 
+                await _refreshTokenService.RevokeAllByUserIdAsync(
+                    userId: existing.UserId,
+                    ipAddress: request.IpAddress ?? string.Empty,
+                    reason: "ReplayDetected",
+                    ct: cancellationToken);
 
-            if(existing.IsExpired)
+                _loggerService.LogWarning("Refresh token replay detected. Revoked all sessions.", new
+                {
+                    UserId = existing.UserId,
+                    IpAddress = request.IpAddress
+                });
+
+                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+            }
+            
+
+            if (existing.IsExpired)
                 throw new AuthorizationException(Errors.Auth.NotAuthorized);
 
             var user = await _userService.TryGetByIdAsync(existing.UserId, cancellationToken);
+
             if(user == null)
                 throw new NotFoundException(Errors.Identity.UserNotFound);
             

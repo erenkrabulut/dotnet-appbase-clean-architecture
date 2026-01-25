@@ -59,6 +59,11 @@ namespace core.Persistence.Services.Identity
             return refreshToken;
         }
 
+        public async Task RevokeAllByUserIdAsync(Guid userId, string? ipAddress, string? reason, CancellationToken ct = default)
+        {
+            await _refreshTokenRepository.RevokeAllByUserIdAsync(userId, ipAddress ?? string.Empty, reason ?? "Revoked", ct);
+        }
+
         public async Task<RefreshToken> RevokeAsync(
             string tokenHash,
             string? ipAddress,
