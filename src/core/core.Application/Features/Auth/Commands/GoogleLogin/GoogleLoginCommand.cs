@@ -2,14 +2,15 @@
 using core.Application.Abstractions.Logging;
 using core.Application.Abstractions.Transactions;
 using core.Application.Common.Responses;
+using core.Application.Features.Auth.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace core.Application.Features.Auth.Commands.Logout
+namespace core.Application.Features.Auth.Commands.GoogleLogin
 {
-    public sealed record LogoutCommand(string RefreshToken, string? IpAddress) 
-        : ICommand<Response>, ILoggableRequest, ITransactionalRequest;
+    public sealed record GoogleLoginCommand(string IdToken, string? IpAddress)
+        : ICommand<Response<TokenPairDto>>, ILoggableRequest, ITransactionalRequest;
 }

@@ -42,6 +42,10 @@ namespace core.Domain.Errors
 
             public static readonly Error UserNotFound =
                 new("IDENTITY.USER_NOT_FOUND", "User is not found.", ErrorType.Identity);
+
+            public static readonly Error EmailAlreadyExists =
+                new("IDENTITY.EMAIL_ALREADY_EXISTS", "Email is already exists.", ErrorType.Identity);
+
         }
 
 

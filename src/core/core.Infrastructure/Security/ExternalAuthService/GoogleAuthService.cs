@@ -27,11 +27,11 @@ namespace core.Infrastructure.Security.ExternalAuthService
             string ipAddress,
             CancellationToken cancellationToken = default)
         {
-            Google.Apis.Auth.GoogleJsonWebSignature.Payload payload;
+            GoogleJsonWebSignature.Payload payload;
 
             try
             {
-                payload = await Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(idToken);
+                payload = await GoogleJsonWebSignature.ValidateAsync(idToken);
             }
             catch (Exception ex)
             {
@@ -39,16 +39,16 @@ namespace core.Infrastructure.Security.ExternalAuthService
             }
 
             var email = payload.Email;
+            var providerKey = payload.Subject;
+
             var user = await _userService.TryGetByEmailAsync(email, cancellationToken);
 
             if (user != null)
             {
-                return ExternalAuthResult.SuccessExistingUser(user.Id, email, "Google");
+                return ExternalAuthResult.SuccessExistingUser(user.Id, email, "Google", providerKey);
             }
-            else
-            {
-                return ExternalAuthResult.SuccessNewUser(email, "Google");
-            }
+
+            return ExternalAuthResult.SuccessNewUser(email, "Google", providerKey);
         }
     }
 }

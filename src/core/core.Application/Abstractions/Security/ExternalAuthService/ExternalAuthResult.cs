@@ -14,6 +14,7 @@ namespace core.Application.Abstractions.Security.ExternalAuthService
         public Guid? UserId { get; init; }
         public string? Email { get; init; }
         public string? Provider { get; init; }
+        public string? ProviderKey { get; init; }
 
         public string? Error { get; init; }
 
@@ -22,25 +23,29 @@ namespace core.Application.Abstractions.Security.ExternalAuthService
         public static ExternalAuthResult SuccessExistingUser(
             Guid userId,
             string email,
-            string provider)
+            string provider,
+            string providerKey)
             => new()
             {
                 Succeeded = true,
                 Status = ExternalAuthStatus.ExistingUser,
                 UserId = userId,
                 Email = email,
-                Provider = provider
+                Provider = provider,
+                ProviderKey = providerKey
             };
 
         public static ExternalAuthResult SuccessNewUser(
             string email,
-            string provider)
+            string provider,
+            string providerKey)
             => new()
             {
                 Succeeded = true,
                 Status = ExternalAuthStatus.NewUserRequired,
                 Email = email,
-                Provider = provider
+                Provider = provider,
+                ProviderKey = providerKey
             };
 
         public static ExternalAuthResult Failed(string error)
