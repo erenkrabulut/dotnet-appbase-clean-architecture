@@ -32,18 +32,7 @@ namespace core.Application.Pipelines.Authorization
             if (!_currentUser.IsAuthenticated)
                 throw new AuthorizationException(Errors.Auth.NotAuthenticated);
 
-            IReadOnlyCollection<string> requiredRoles = securedRequest.Roles ?? Array.Empty<string>();
             IReadOnlyCollection<string> requiredPermissions = securedRequest.Permissions ?? Array.Empty<string>();
-
-            if (requiredRoles.Count > 0)
-            {
-                bool hasRole = _currentUser.Roles.Any(userRole =>
-                    requiredRoles.Any(required =>
-                        string.Equals(required, userRole, StringComparison.OrdinalIgnoreCase)));
-
-                if (!hasRole)
-                    throw new AuthorizationException(Errors.Auth.NotAuthorized);
-            }
 
             if (requiredPermissions.Count > 0)
             {
