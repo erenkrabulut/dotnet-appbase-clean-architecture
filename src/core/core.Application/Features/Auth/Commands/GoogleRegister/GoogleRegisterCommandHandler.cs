@@ -53,16 +53,16 @@ namespace core.Application.Features.Auth.Commands.GoogleRegister
                 cancellationToken: cancellationToken);
 
             if (!result.Succeeded || result.Status == ExternalAuthStatus.Failed)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if (result.Status != ExternalAuthStatus.NewUserRequired)
-                throw new ConflictException(Errors.Identity.EmailAlreadyExists);
+                throw new ConflictException(IdentityErrors.User.EmailAlreadyExists);
 
             if (string.IsNullOrWhiteSpace(result.Email))
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if (string.IsNullOrWhiteSpace(result.ProviderKey))
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             await _userService.EnsureEmailUniqueAsync(result.Email, cancellationToken);
 

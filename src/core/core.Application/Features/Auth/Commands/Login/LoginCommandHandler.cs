@@ -46,17 +46,17 @@ namespace core.Application.Features.Auth.Commands.Login
         {
             var user = await _userService.TryGetByEmailAsync(request.Email, cancellationToken);
             if (user is null)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if (!user.IsActive)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if(user.PasswordHash is null)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var valid = _passwordHasher.Verify(request.Password, user.PasswordHash);
             if (!valid)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var snapshot = await _identityClaimsService.GetSnapshotAsync(user.Id, cancellationToken);
 

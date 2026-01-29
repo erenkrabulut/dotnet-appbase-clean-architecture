@@ -21,9 +21,6 @@ namespace core.Persistence.EntityConfigurations.Identity
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(x => x.Description)
-                .HasMaxLength(250);
-
             builder.HasMany(x => x.RolePermissions)
                 .WithOne(x => x.Permission)
                 .HasForeignKey(x => x.PermissionId);

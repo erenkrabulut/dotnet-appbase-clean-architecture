@@ -31,7 +31,7 @@ namespace core.Application.Features.Auth.Commands.Logout
 
             var existing = await _refreshTokenService.TryGetByTokenHashAsync(tokenHash, cancellationToken);
             if (existing is null)
-                throw new NotFoundException(Errors.Identity.RefreshTokenNotFound);
+                throw new NotFoundException(IdentityErrors.RefreshToken.NotFound);
 
             if (existing.IsRevoked)
                 return Response.Ok();
