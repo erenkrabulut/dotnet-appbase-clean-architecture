@@ -13,6 +13,8 @@ namespace core.Application.Abstractions.Services.Identity
         Task<UserLogin?> TryGetByIdAsync(Guid id, CancellationToken ct = default);
         Task<UserLogin> GetByIdAsync(Guid id, CancellationToken ct = default);
 
+        Task<List<UserLogin>> GetByUserIdAsync(Guid userId, CancellationToken ct = default);
+
         Task<UserLogin?> TryGetByProviderAsync(Guid userId, string providerKey, CancellationToken ct = default);
         Task<UserLogin> GetByProviderAsync(Guid userId, string providerKey, CancellationToken ct = default);
 

@@ -26,6 +26,8 @@
     <Folder Include="Features\Permissions\Commands\UpdatePermission\" />
     <Folder Include="Features\Permissions\MappingProfiles\" />
     <Folder Include="Features\RolePermissions\MappingProfiles\" />
+    <Folder Include="Features\UserLogins\Commands\" />
+    <Folder Include="Features\UserLogins\MappingProfiles\" />
   </ItemGroup>
 
 </Project>
