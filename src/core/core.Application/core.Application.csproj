@@ -25,6 +25,7 @@
     <Folder Include="Features\Permissions\Commands\DeletePermission\" />
     <Folder Include="Features\Permissions\Commands\UpdatePermission\" />
     <Folder Include="Features\Permissions\MappingProfiles\" />
+    <Folder Include="Features\RolePermissions\MappingProfiles\" />
   </ItemGroup>
 
 </Project>

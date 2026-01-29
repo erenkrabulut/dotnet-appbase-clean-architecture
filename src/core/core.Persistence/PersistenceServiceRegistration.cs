@@ -44,6 +44,8 @@ namespace core.Persistence
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IUserLoginService, UserLoginService>();
             services.AddScoped<IIdentityClaimsService, IdentityClaimsService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+            services.AddScoped<IRolePermissionService, RolePermissionService>();
 
             return services;
         }
