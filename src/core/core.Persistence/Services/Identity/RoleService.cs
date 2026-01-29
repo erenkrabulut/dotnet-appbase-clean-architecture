@@ -1,9 +1,12 @@
 ﻿using core.Application.Abstractions.Repositories.Identity;
 using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
+using core.Application.Common.Paging;
 using core.Application.Common.Responses;
 using core.Domain.Entities.Identity;
 using core.Domain.Errors;
+using core.Persistence.Repositories.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +74,48 @@ namespace core.Persistence.Services.Identity
         {
             Role role = await GetByIdAsync(id, ct);
             await _roleRepository.DeleteAsync(role, isSoftDelete, ct);
+        }
+
+        public async Task<PageResponse<Role>> GetPageAsync(PageRequest pageRequest, CancellationToken ct = default)
+        {
+            IQueryable<Role> query = _roleRepository.Query().AsNoTracking();
+
+            query = ApplyOrderBy(query, pageRequest);
+
+            int totalCount = await query.CountAsync(ct);
+
+            var items = await query
+                .Skip(pageRequest.PageIndex * pageRequest.PageSize)
+                .Take(pageRequest.PageSize)
+                .ToListAsync(ct);
+
+            return new PageResponse<Role>
+            {
+                Items = items,
+                PageIndex = pageRequest.PageIndex,
+                PageSize = pageRequest.PageSize,
+                TotalCount = totalCount
+            };
+        }
+
+        private static IQueryable<Role> ApplyOrderBy(IQueryable<Role> query, PageRequest pageRequest)
+        {
+            if (string.IsNullOrWhiteSpace(pageRequest.OrderBy))
+                return query.OrderBy(x => x.Id);
+
+            string orderBy = pageRequest.OrderBy.Trim();
+
+            return (orderBy, pageRequest.Desc) switch
+            {
+                (nameof(Role.Name), false) => query.OrderBy(x => x.Name),
+                (nameof(Role.Name), true) => query.OrderByDescending(x => x.Name),
+
+                (nameof(User.Id), false) => query.OrderBy(x => x.Id),
+                (nameof(User.Id), true) => query.OrderByDescending(x => x.Id),
+
+                _ when pageRequest.Desc => query.OrderByDescending(x => x.Id),
+                _ => query.OrderBy(x => x.Id)
+            };
         }
     }
 }
