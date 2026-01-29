@@ -10,7 +10,7 @@ namespace core.Application.Common.Exceptions.ExceptionTypes
         public IReadOnlyDictionary<string, string[]> FieldErrors { get; }
 
         public ValidationException(IEnumerable<ValidationFailure> failures)
-            : base(Errors.Validation.ValidationError)
+            : base(ValidationErrors.ValidationFailed)
         {
             FieldErrors = failures
                 .GroupBy(f => f.PropertyName ?? string.Empty)

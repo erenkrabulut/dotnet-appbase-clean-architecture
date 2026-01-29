@@ -16,7 +16,7 @@ namespace core.Application.Common.Exceptions.ExceptionFactory
             if (exception is AppException appEx)
                 return FromError(appEx.Error);
 
-            return FromError(Errors.General.Internal);
+            return FromError(GeneralErrors.Internal);
         }
 
         private static ExceptionResponse FromError(Error error)

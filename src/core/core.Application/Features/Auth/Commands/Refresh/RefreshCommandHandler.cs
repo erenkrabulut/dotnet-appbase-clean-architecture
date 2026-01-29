@@ -44,7 +44,7 @@ namespace core.Application.Features.Auth.Commands.Refresh
 
             var existing = await _refreshTokenService.TryGetByTokenHashAsync(presentedHash, cancellationToken);
             if (existing == null)
-                throw new NotFoundException(Errors.Identity.RefreshTokenNotFound);
+                throw new NotFoundException(IdentityErrors.RefreshToken.NotFound);
 
             if (existing.IsRevoked) { 
                 await _refreshTokenService.RevokeAllByUserIdAsync(
@@ -59,20 +59,20 @@ namespace core.Application.Features.Auth.Commands.Refresh
                     IpAddress = request.IpAddress
                 });
 
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
             }
             
 
             if (existing.IsExpired)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var user = await _userService.TryGetByIdAsync(existing.UserId, cancellationToken);
 
             if(user == null)
-                throw new NotFoundException(Errors.Identity.UserNotFound);
+                throw new NotFoundException(IdentityErrors.User.NotFound);
             
             if(!user.IsActive)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
 
 

@@ -30,7 +30,7 @@ namespace core.Application.Pipelines.Authorization
                 return await next();
 
             if (!_currentUser.IsAuthenticated)
-                throw new AuthorizationException(Errors.Auth.NotAuthenticated);
+                throw new AuthorizationException(AuthErrors.NotAuthenticated);
 
             IReadOnlyCollection<string> requiredPermissions = securedRequest.Permissions ?? Array.Empty<string>();
 
@@ -41,7 +41,7 @@ namespace core.Application.Pipelines.Authorization
                         string.Equals(required, userPerm, StringComparison.OrdinalIgnoreCase)));
 
                 if (!hasPermission)
-                    throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                    throw new AuthorizationException(AuthErrors.NotAuthorized);
             }
 
             return await next();

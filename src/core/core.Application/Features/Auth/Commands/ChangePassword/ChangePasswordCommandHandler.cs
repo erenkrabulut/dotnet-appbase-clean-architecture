@@ -35,23 +35,23 @@ namespace core.Application.Features.Auth.Commands.ChangePassword
         public async Task<Response> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             if (!_currentUser.IsAuthenticated || _currentUser.UserId is null)
-                throw new AuthorizationException(Errors.Auth.NotAuthenticated);
+                throw new AuthorizationException(AuthErrors.NotAuthenticated);
 
             var userId = _currentUser.UserId.Value;
 
             var user = await _userService.TryGetByIdAsync(userId, cancellationToken);
             if (user is null)
-                throw new NotFoundException(Errors.Identity.UserNotFound);
+                throw new NotFoundException(IdentityErrors.User.NotFound);
 
             if (!user.IsActive)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if (string.IsNullOrWhiteSpace(user.PasswordHash))
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var valid = _passwordHasher.Verify(request.CurrentPassword, user.PasswordHash);
             if (!valid)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             user.PasswordHash = _passwordHasher.Hash(request.NewPassword);
 

@@ -48,20 +48,20 @@ namespace core.Application.Features.Auth.Commands.GoogleLogin
                 cancellationToken: cancellationToken);
 
             if (!result.Succeeded || result.Status == ExternalAuthStatus.Failed)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             if (result.Status == ExternalAuthStatus.NewUserRequired)
-                throw new NotFoundException(Errors.Identity.UserNotFound);
+                throw new NotFoundException(IdentityErrors.User.NotFound);
 
             if (result.UserId is null)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var user = await _userService.TryGetByIdAsync(result.UserId.Value, cancellationToken);
             if (user is null)
-                throw new NotFoundException(Errors.Identity.UserNotFound);
+                throw new NotFoundException(IdentityErrors.User.NotFound);
 
             if (!user.IsActive)
-                throw new AuthorizationException(Errors.Auth.NotAuthorized);
+                throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var snapshot = await _identityClaimsService.GetSnapshotAsync(user.Id, cancellationToken);
 
