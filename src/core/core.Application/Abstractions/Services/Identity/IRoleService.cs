@@ -1,4 +1,5 @@
-﻿using core.Application.Common.Responses;
+﻿using core.Application.Common.Paging;
+using core.Application.Common.Responses;
 using core.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,7 @@ namespace core.Application.Abstractions.Services.Identity
         Task UpdateAsync(Role role, CancellationToken ct = default);
 
         Task DeleteAsync(Guid id, bool isSoftDelete = true, CancellationToken ct = default);
+
+        Task<PageResponse<Role>> GetPageAsync(PageRequest pageRequest, CancellationToken ct = default);
     }
 }

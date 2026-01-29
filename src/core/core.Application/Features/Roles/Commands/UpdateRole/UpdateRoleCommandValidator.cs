@@ -1,0 +1,43 @@
+﻿using core.Application.Abstractions.Services.Identity;
+using core.Application.Features.Roles.Constants;
+using core.Domain.Entities.Identity;
+using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace core.Application.Features.Roles.Commands.UpdateRole
+{
+    public sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
+    {
+        public UpdateRoleCommandValidator(IRoleService roleService)
+        {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(RolesConstants.NameMaxLength)
+                .MustAsync(async (command, name, ct) =>
+                {
+                    Role? existing = await roleService.TryGetByIdAsync(command.Id, ct);
+
+                    if (existing is null)
+                    {
+                        // if role is not exist handler will throw NotFound exception, so skip this here.
+                        return true;
+                    }
+
+                    if (!string.Equals(existing.Name, name, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        await roleService.EnsureNameUniqueAsync(name, ct);
+                    }
+
+                    return true;
+                });
+        }
+
+    }
+}
