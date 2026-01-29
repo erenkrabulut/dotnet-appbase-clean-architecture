@@ -21,6 +21,10 @@
   <ItemGroup>
     <Folder Include="Features\Auth\Constants\" />
     <Folder Include="Features\Auth\Queries\" />
+    <Folder Include="Features\Permissions\Commands\CreatePermission\" />
+    <Folder Include="Features\Permissions\Commands\DeletePermission\" />
+    <Folder Include="Features\Permissions\Commands\UpdatePermission\" />
+    <Folder Include="Features\Permissions\MappingProfiles\" />
   </ItemGroup>
 
 </Project>
