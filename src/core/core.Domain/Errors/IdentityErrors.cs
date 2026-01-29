@@ -58,5 +58,11 @@ namespace core.Domain.Errors
             public static readonly Error AlreadyAssigned =
                 new("IDENTITY.ROLE_PERMISSION_ALREADY_ASSIGNED", "Permission is already assigned to the role.", ErrorType.Identity);
         }
+
+        public static class UserLogin
+        {
+            public static readonly Error ProviderKeyAlreadyExists =
+                new("IDENTITY.USER_LOGIN_PROVIDER_KEY_ALREADY_EXIST", "Provider Key is already exists.", ErrorType.Identity);
+        }
     }
 }
