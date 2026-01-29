@@ -110,8 +110,8 @@ namespace core.Persistence.Services.Identity
                 (nameof(Role.Name), false) => query.OrderBy(x => x.Name),
                 (nameof(Role.Name), true) => query.OrderByDescending(x => x.Name),
 
-                (nameof(User.Id), false) => query.OrderBy(x => x.Id),
-                (nameof(User.Id), true) => query.OrderByDescending(x => x.Id),
+                (nameof(Role.Id), false) => query.OrderBy(x => x.Id),
+                (nameof(Role.Id), true) => query.OrderByDescending(x => x.Id),
 
                 _ when pageRequest.Desc => query.OrderByDescending(x => x.Id),
                 _ => query.OrderBy(x => x.Id)

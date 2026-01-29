@@ -1,4 +1,5 @@
-﻿using core.Application.Common.Responses;
+﻿using core.Application.Common.Paging;
+using core.Application.Common.Responses;
 using core.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,7 @@ namespace core.Application.Abstractions.Services.Identity
         Task<Permission> GetByNameAsync(string name, CancellationToken ct = default);
 
         Task EnsureNameUniqueAsync(string name, CancellationToken ct = default);
+
+        Task<PageResponse<Permission>> GetPageAsync(PageRequest pageRequest, CancellationToken ct = default);
     }
 }

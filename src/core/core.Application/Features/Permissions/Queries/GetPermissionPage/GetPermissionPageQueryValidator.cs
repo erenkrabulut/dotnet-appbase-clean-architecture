@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace core.Application.Features.Roles.Queries.GetRolesPage
+namespace core.Application.Features.Permissions.Queries.GetPermissionPage
 {
-    public sealed class GetRolesPageQueryValidator : AbstractValidator<GetRolesPageQuery>
+    public sealed class GetPermissionsPageQueryValidator : AbstractValidator<GetPermissionsPageQuery>
     {
-        public GetRolesPageQueryValidator()
+        public GetPermissionsPageQueryValidator()
         {
             RuleFor(x => x.PageRequest).NotNull();
             RuleFor(x => x.PageRequest.PageIndex).GreaterThanOrEqualTo(0);
