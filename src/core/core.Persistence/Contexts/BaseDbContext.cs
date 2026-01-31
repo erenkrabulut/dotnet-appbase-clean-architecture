@@ -11,7 +11,7 @@ namespace core.Persistence.Contexts
 {
     public class BaseDbContext : DbContext
     {
-        protected BaseDbContext(DbContextOptions options) : base(options) { }
+        public BaseDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

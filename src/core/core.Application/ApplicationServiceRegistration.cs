@@ -5,11 +5,7 @@ using core.Application.Pipelines.Transaction;
 using core.Application.Pipelines.Validation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace core.Application
 {
@@ -24,6 +20,8 @@ namespace core.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+
+            services.AddAutoMapper(_ => { }, Assembly.GetExecutingAssembly());
 
 
             return services;
