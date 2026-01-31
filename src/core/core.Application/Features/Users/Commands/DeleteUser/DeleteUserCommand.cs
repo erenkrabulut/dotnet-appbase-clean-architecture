@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.DeleteUser
 {
-    public sealed class DeleteUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record DeleteUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
         public Guid Id { get; init; }
 

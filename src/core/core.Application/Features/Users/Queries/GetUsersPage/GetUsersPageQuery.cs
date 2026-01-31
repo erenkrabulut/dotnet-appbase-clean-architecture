@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUsersPage
 {
-    public sealed class GetUsersPageQuery : IPagedRequest<Response<PageResponse<UserDto>>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUsersPageQuery : IPagedRequest<Response<PageResponse<UserDto>>>, ISecuredRequest, ILoggableRequest
     {
         public PageRequest PageRequest { get; init; } = new PageRequest();
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUserById
 {
-    public sealed class GetUserByIdQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUserByIdQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
     {
         public Guid Id { get; init; }
 

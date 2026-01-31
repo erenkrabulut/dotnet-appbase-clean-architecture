@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.CreateUser
 {
-    public sealed class CreateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record CreateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
     {
         public string Email { get; init; } = string.Empty;
 
