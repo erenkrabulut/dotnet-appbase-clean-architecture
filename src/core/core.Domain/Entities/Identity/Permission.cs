@@ -19,5 +19,6 @@ namespace core.Domain.Entities.Identity
             Name = name;
             RolePermissions = new List<RolePermission>();
         }
+
     }
 }

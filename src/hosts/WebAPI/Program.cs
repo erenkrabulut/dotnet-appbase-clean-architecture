@@ -1,17 +1,24 @@
+using core.Application;
 using core.Infrastructure;
 using core.Infrastructure.Security.Tokens;
 using core.Persistence;
-using core.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Microsoft.AspNetCore.HttpOverrides;
+using System.Text.Json.Serialization;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -78,6 +85,9 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+
+await app.InitializeDatabaseAsync(builder.Configuration);
 
 
 if (app.Environment.IsDevelopment())

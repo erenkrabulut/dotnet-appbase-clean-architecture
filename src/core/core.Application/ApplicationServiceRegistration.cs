@@ -1,8 +1,11 @@
-﻿using core.Application.Pipelines.Authorization;
+﻿using core.Application.Abstractions.Services.Seed;
+using core.Application.Common.Exceptions.ExceptionFactory;
+using core.Application.Pipelines.Authorization;
 using core.Application.Pipelines.ExceptionHandling;
 using core.Application.Pipelines.Logging;
 using core.Application.Pipelines.Transaction;
 using core.Application.Pipelines.Validation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -21,7 +24,13 @@ namespace core.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
+
+            services.AddScoped<IExceptionResponseFactory, ExceptionResponseFactory>();
+
+
             services.AddAutoMapper(_ => { }, Assembly.GetExecutingAssembly());
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 
             return services;
