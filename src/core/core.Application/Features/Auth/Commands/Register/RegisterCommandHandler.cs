@@ -17,7 +17,6 @@ namespace core.Application.Features.Auth.Commands.Register
 {
     public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Response<TokenPairDto>>
     {
-        private const string LocalPasswordProviderKey = "password";
 
         private readonly IUserService _userService;
         private readonly IUserLoginService _userLoginService;

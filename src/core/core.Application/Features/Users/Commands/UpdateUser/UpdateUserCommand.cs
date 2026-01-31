@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.UpdateUser
 {
-    public sealed class UpdateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record UpdateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
     {
         public Guid Id { get; init; }
 

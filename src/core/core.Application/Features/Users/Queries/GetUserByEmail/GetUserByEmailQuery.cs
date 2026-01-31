@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUserByEmail
 {
-    public sealed class GetUserByEmailQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUserByEmailQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
     {
         public string Email { get; init; } = string.Empty;
 
