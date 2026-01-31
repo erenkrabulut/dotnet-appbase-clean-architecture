@@ -36,8 +36,8 @@ namespace core.Infrastructure
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddScoped<IExternalAuthService, GoogleAuthService>();
 
-            services.AddSingleton<ILogContextAccessor, HttpLogContextAccessor>();
-            services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddScoped<ILogContextAccessor, HttpLogContextAccessor>();
+            services.AddScoped<ILoggerService, LoggerService>();
 
             return services;
         }
