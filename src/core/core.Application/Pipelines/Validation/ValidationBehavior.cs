@@ -1,11 +1,6 @@
 ﻿using core.Application.Common.Responses;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Pipelines.Validation
 {
@@ -41,7 +36,7 @@ namespace core.Application.Pipelines.Validation
             if (failures.Count == 0)
                 return await next();
 
-            throw new ValidationException(failures);
+            throw new core.Application.Common.Exceptions.ExceptionTypes.ValidationException(failures);
         }
     }
 }

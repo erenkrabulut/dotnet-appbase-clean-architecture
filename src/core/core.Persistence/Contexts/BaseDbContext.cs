@@ -1,5 +1,7 @@
 ﻿using core.Domain.Common;
+using core.Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,25 @@ namespace core.Persistence.Contexts
 {
     public class BaseDbContext : DbContext
     {
-        public BaseDbContext(DbContextOptions options) : base(options) { }
+
+        protected IConfiguration Configuration { get; set; }
+
+
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public BaseDbContext(DbContextOptions options, IConfiguration configuration) 
+            : base(options) 
+        { 
+            Configuration = configuration;    
+        }
+
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

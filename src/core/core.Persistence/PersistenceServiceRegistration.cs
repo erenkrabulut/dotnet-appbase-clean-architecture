@@ -1,9 +1,11 @@
 ﻿using core.Application.Abstractions.Repositories.Identity;
 using core.Application.Abstractions.Services.Identity;
+using core.Application.Abstractions.Services.Seed;
 using core.Application.Abstractions.Transactions;
 using core.Infrastructure.Transactions;
 using core.Persistence.Contexts;
 using core.Persistence.Repositories.Identity;
+using core.Persistence.Seed;
 using core.Persistence.Services.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +48,11 @@ namespace core.Persistence
             services.AddScoped<IIdentityClaimsService, IdentityClaimsService>();
             services.AddScoped<IUserRoleService, UserRoleService>();
             services.AddScoped<IRolePermissionService, RolePermissionService>();
+
+            // Seed
+            services.AddScoped<ISeedApplier, SeedApplier>();
+            services.AddScoped<ISeeder, PermissionSeeder>();
+            services.AddScoped<IMigrationApplier, MigrationApplier>();
 
             return services;
         }
