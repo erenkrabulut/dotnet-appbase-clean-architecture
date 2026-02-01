@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.RolePermissions.Queries.GetPermissionsByRoleId
 {
-    public sealed class GetPermissionsByRoleIdQuery : IQuery<Response<RolePermissionsSnapshotDto>>, ISecuredRequest
+    public sealed record GetPermissionsByRoleIdQuery(Guid RoleId)
+    : IQuery<Response<RolePermissionsSnapshotDto>>, ISecuredRequest
     {
-        public Guid RoleId { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
             new[] { RolePermissionsPermissions.Admin, RolePermissionsPermissions.Read };
     }

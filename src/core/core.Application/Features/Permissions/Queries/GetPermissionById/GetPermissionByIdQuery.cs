@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Permissions.Queries.GetPermissionById
 {
-    public sealed class GetPermissionByIdQuery : IQuery<Response<PermissionDto>>, ISecuredRequest
+    public sealed record GetPermissionByIdQuery(int Id)
+    : IQuery<Response<PermissionDto>>, ISecuredRequest
     {
-        public int Id { get; init; }
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { PermissionsPermissions.Admin, PermissionsPermissions.Read };
     }
