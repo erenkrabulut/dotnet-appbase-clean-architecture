@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRoleCommand command)
         {
             var enrichedCommand = command with { Id = id };
-            Response<RoleDto> response = await Mediator.Send(command);
+            Response<RoleDto> response = await Mediator.Send(enrichedCommand);
             return Ok(response);
         }
 
