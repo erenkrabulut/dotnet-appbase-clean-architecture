@@ -13,11 +13,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Queries.GetRoleByName
 {
-    public sealed record GetRolesPageQuery(PageRequest? PageRequest = null)
-    : IPagedRequest<Response<PageResponse<RoleDto>>>, ISecuredRequest
+    public sealed record GetRoleByNameQuery(string Name)
+    : IQuery<Response<RoleDto>>, ISecuredRequest
     {
-        public PageRequest PageRequest { get; init; } = PageRequest ?? new PageRequest();
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { RolesPermissions.Admin, RolesPermissions.Read };
     }
