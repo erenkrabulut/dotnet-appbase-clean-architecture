@@ -14,13 +14,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public sealed class UsersController : BaseController
     {
         public UsersController() { }
 
         [HttpGet("{id:guid}")]
-        [Authorize] 
         public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken ct)
         {
             var query = new GetUserByIdQuery(id);
@@ -29,7 +29,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("by-email/{email}")]
-        [Authorize]
         public async Task<IActionResult> GetByEmail([FromRoute] string email, CancellationToken ct)
         {
             var query = new GetUserByEmailQuery(email);
@@ -38,7 +37,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetPage([FromQuery] GetUsersPageQuery query, CancellationToken ct)
         {
             Response<PageResponse<UserDto>> result = await Mediator.Send(query, ct);
@@ -46,7 +44,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command, CancellationToken ct)
         {
             Response<UserDto> result = await Mediator.Send(command, ct);
@@ -54,7 +51,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        [Authorize]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserCommand command, CancellationToken ct)
         {
             var enriched = command with { Id = id };
@@ -64,7 +60,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] Guid id, [FromQuery] bool isSoftDelete = true, CancellationToken ct = default)
         {
             var command = new DeleteUserCommand(id, isSoftDelete);

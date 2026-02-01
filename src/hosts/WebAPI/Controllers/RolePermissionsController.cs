@@ -3,12 +3,14 @@ using core.Application.Features.RolePermissions.Commands.RemovePermissionFromRol
 using core.Application.Features.RolePermissions.Commands.ReplaceRolePermissions;
 using core.Application.Features.RolePermissions.Queries.GetPermissionsByRoleId;
 using core.Application.Features.UserRoles.Commands.ReplaceUserRoles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     [Route("api/roles/{roleId:guid}/permissions")]
+    [Authorize]
     [ApiController]
     public sealed class RolePermissionsController : BaseController
     {
