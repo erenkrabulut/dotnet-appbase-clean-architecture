@@ -11,11 +11,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.RolePermissions.Commands.AddPermissionToRole
 {
-    public sealed class AddPermissionToRoleCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record AddPermissionToRoleCommand(Guid RoleId, int PermissionId)
+    : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid RoleId { get; init; }
-        public int PermissionId { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
             new[] { RolePermissionsPermissions.Admin, RolePermissionsPermissions.Add, RolePermissionsPermissions.Write };
     }

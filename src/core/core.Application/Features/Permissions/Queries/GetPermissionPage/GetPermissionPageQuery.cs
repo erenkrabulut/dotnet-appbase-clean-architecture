@@ -12,10 +12,13 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Permissions.Queries.GetPermissionPage
 {
-    public sealed class GetPermissionsPageQuery : IPagedRequest<Response<PageResponse<PermissionDto>>>, ISecuredRequest
+    public sealed record GetPermissionsPageQuery(PageRequest? PageRequest = null)
+    : IPagedRequest<Response<PageResponse<PermissionDto>>>, ISecuredRequest
     {
-        public PageRequest PageRequest { get; init; } = new();
+        public PageRequest PageRequest { get; init; } = PageRequest ?? new();
+
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { PermissionsPermissions.Admin, PermissionsPermissions.Read };
     }
+
 }
