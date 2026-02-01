@@ -12,10 +12,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUserById
 {
-    public sealed record GetUserByIdQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUserByIdQuery(Guid Id)
+    : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
     {
-        public Guid Id { get; init; }
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { UsersPermissions.Admin, UsersPermissions.Read };
     }

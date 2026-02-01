@@ -11,12 +11,10 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserRoles.Commands.RemoveRoleFromUser
 {
-    public sealed class RemoveRoleFromUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record RemoveRoleFromUserCommand(Guid UserId, Guid RoleId)
+    : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid UserId { get; init; }
-        public Guid RoleId { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
-                 new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Delete };
+            new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Delete };
     }
 }

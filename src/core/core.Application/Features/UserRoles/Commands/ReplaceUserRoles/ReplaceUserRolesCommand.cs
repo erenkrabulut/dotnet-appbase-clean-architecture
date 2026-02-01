@@ -11,13 +11,12 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserRoles.Commands.ReplaceUserRoles
 {
-    public sealed class ReplaceUserRolesCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record ReplaceUserRolesCommand(Guid UserId, List<Guid>? RoleIds = null)
+    : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid UserId { get; init; }
-
-        public List<Guid> RoleIds { get; init; } = new();
+        public List<Guid> RoleIds { get; init; } = RoleIds ?? new();
 
         public IReadOnlyCollection<string> Permissions =>
-                 new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Update };
+            new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Update };
     }
 }

@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserLogins.Commands.UnlinkLoginToUser
 {
-    public sealed class UnlinkLoginCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record UnlinkLoginCommand(
+        Guid UserId,
+        AuthenticationProvider Provider
+    ) : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid UserId { get; init; }
-
-        public AuthenticationProvider Provider { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
             new[] { UserLoginsPermissions.Admin, UserLoginsPermissions.Delete, UserLoginsPermissions.Write };
     }
+
 }

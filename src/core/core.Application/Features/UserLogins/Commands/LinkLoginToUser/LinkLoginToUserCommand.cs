@@ -12,17 +12,15 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserLogins.Commands.LinkLoginToUser
 {
-    public sealed class LinkLoginToUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record LinkLoginToUserCommand(
+         Guid UserId,
+         AuthenticationProvider Provider,
+         string ProviderKey,
+         string? ProviderValue
+     ) : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid UserId { get; init; }
-
-        public AuthenticationProvider Provider { get; init; }
-
-        public string ProviderKey { get; init; } = string.Empty;
-
-        public string? ProviderValue { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
-            new[] { UserLoginsPermissions.Admin, UserLoginsPermissions.Add , UserLoginsPermissions.Write };
+            new[] { UserLoginsPermissions.Admin, UserLoginsPermissions.Add, UserLoginsPermissions.Write };
     }
+
 }

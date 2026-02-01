@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Queries.GetRoleById
 {
-    public sealed class GetRoleByIdQuery : IQuery<Response<RoleDto>>, ISecuredRequest
+    public sealed record GetRoleByIdQuery(Guid Id)
+    : IQuery<Response<RoleDto>>, ISecuredRequest
     {
-        public Guid Id { get; init; }
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { RolesPermissions.Admin, RolesPermissions.Read };
     }
+
 }

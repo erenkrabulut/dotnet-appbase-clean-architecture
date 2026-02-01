@@ -12,11 +12,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Commands.UpdateRole
 {
-    public sealed class UpdateRoleCommand : ICommand<Response<RoleDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record UpdateRoleCommand(Guid Id, string Name)
+    : ICommand<Response<RoleDto>>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid Id { get; init; }
-        public string Name { get; init; } = string.Empty;
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { RolesPermissions.Admin, RolesPermissions.Update, RolesPermissions.Write };
     }

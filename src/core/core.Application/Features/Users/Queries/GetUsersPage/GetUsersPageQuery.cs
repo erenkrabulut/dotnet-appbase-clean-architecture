@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUsersPage
 {
-    public sealed record GetUsersPageQuery : IPagedRequest<Response<PageResponse<UserDto>>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUsersPageQuery(PageRequest? PageRequest = null)
+    : IPagedRequest<Response<PageResponse<UserDto>>>, ISecuredRequest, ILoggableRequest
     {
-        public PageRequest PageRequest { get; init; } = new PageRequest();
+        public PageRequest PageRequest { get; init; } = PageRequest ?? new PageRequest();
 
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { UsersPermissions.Admin, UsersPermissions.Read };

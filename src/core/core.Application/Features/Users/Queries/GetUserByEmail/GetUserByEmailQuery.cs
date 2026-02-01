@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Queries.GetUserByEmail
 {
-    public sealed record GetUserByEmailQuery : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
+    public sealed record GetUserByEmailQuery(string Email)
+    : IQuery<Response<UserDto>>, ISecuredRequest, ILoggableRequest
     {
-        public string Email { get; init; } = string.Empty;
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { UsersPermissions.Admin, UsersPermissions.Read };
     }
+
 }

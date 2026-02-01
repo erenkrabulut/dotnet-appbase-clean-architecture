@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserLogins.Queries.GetUserLoginsByUserId
 {
-    public sealed class GetUserLoginsByUserIdQuery : IQuery<Response<UserLoginsSnapshotDto>>, ISecuredRequest
+    public sealed record GetUserLoginsByUserIdQuery(Guid UserId)
+    : IQuery<Response<UserLoginsSnapshotDto>>, ISecuredRequest
     {
-        public Guid UserId { get; init; }
-
         public IReadOnlyCollection<string> Permissions =>
             new[] { UserLoginsPermissions.Admin, UserLoginsPermissions.Read };
     }

@@ -12,16 +12,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.UpdateUser
 {
-    public sealed record UpdateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record UpdateUserCommand(Guid Id, string Email, string FirstName, string LastName)
+    : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid Id { get; init; }
-
-        public string Email { get; init; } = string.Empty;
-
-        public string FirstName { get; init; } = string.Empty;
-
-        public string LastName { get; init; } = string.Empty;
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { UsersPermissions.Admin, UsersPermissions.Write, UsersPermissions.Update };
     }

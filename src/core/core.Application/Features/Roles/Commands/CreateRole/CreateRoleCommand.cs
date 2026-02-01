@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Commands.CreateRole
 {
-    public sealed class CreateRoleCommand : ICommand<Response<RoleDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record CreateRoleCommand(string Name)
+    : ICommand<Response<RoleDto>>, ISecuredRequest, ITransactionalRequest
     {
-        public string Name { get; init; } = string.Empty;
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { RolesPermissions.Admin, RolesPermissions.Add, RolesPermissions.Write };
     }

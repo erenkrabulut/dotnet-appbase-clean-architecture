@@ -1,5 +1,7 @@
 ﻿using core.Application.Abstractions.Cqrs;
+using core.Application.Abstractions.Paging;
 using core.Application.Abstractions.Security.Authorization;
+using core.Application.Common.Paging;
 using core.Application.Common.Responses;
 using core.Application.Features.Roles.Constants;
 using core.Application.Features.Roles.Dtos;
@@ -11,11 +13,14 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Queries.GetRoleByName
 {
-    public sealed class GetRoleByNameQuery : IQuery<Response<RoleDto>>, ISecuredRequest
+    public sealed record GetRolesPageQuery(PageRequest? PageRequest = null)
+    : IPagedRequest<Response<PageResponse<RoleDto>>>, ISecuredRequest
     {
-        public string Name { get; init; } = string.Empty;
+        public PageRequest PageRequest { get; init; } = PageRequest ?? new PageRequest();
 
-        IReadOnlyCollection<string> ISecuredRequest.Permissions => 
+        IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { RolesPermissions.Admin, RolesPermissions.Read };
     }
+
+
 }

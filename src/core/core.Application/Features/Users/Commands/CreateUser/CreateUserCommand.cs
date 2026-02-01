@@ -12,14 +12,9 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.CreateUser
 {
-    public sealed record CreateUserCommand : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
+    public sealed record CreateUserCommand(string Email, string FirstName, string LastName)
+    : ICommand<Response<UserDto>>, ISecuredRequest, ITransactionalRequest
     {
-        public string Email { get; init; } = string.Empty;
-
-        public string FirstName { get; init; } = string.Empty;
-
-        public string LastName { get; init; } = string.Empty;
-
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
             new[] { UsersPermissions.Admin, UsersPermissions.Write, UsersPermissions.Add };
     }

@@ -11,12 +11,10 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Users.Commands.DeleteUser
 {
-    public sealed record DeleteUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record DeleteUserCommand(Guid Id, bool IsSoftDelete = true)
+    : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid Id { get; init; }
-
-        public bool IsSoftDelete { get; init; } = true;
         IReadOnlyCollection<string> ISecuredRequest.Permissions =>
-                    new[] { UsersPermissions.Admin, UsersPermissions.Write, UsersPermissions.Delete };
+            new[] { UsersPermissions.Admin, UsersPermissions.Write, UsersPermissions.Delete };
     }
 }

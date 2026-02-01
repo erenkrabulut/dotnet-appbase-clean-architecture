@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.UserRoles.Commands.AddRoleToUser
 {
-    public sealed class AddRoleToUserCommand : ICommand<Response>, ISecuredRequest, ITransactionalRequest
+    public sealed record AddRoleToUserCommand(Guid UserId, Guid RoleId)
+    : ICommand<Response>, ISecuredRequest, ITransactionalRequest
     {
-        public Guid UserId { get; init; }
-        public Guid RoleId { get; init; }
         public IReadOnlyCollection<string> Permissions =>
-                 new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Add };
+            new[] { UserRolesPermissions.Admin, UserRolesPermissions.Write, UserRolesPermissions.Add };
     }
 }
