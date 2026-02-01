@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [Authorize] 
         public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken ct)
         {
-            var query = new GetUserByIdQuery { Id = id };
+            var query = new GetUserByIdQuery(id);
             Response<UserDto> result = await Mediator.Send(query, ct);
             return Ok(result);
         }
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> GetByEmail([FromRoute] string email, CancellationToken ct)
         {
-            var query = new GetUserByEmailQuery { Email = email };
+            var query = new GetUserByEmailQuery(email);
             Response<UserDto> result = await Mediator.Send(query, ct);
             return Ok(result);
         }
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] Guid id, [FromQuery] bool isSoftDelete = true, CancellationToken ct = default)
         {
-            var command = new DeleteUserCommand { Id = id, IsSoftDelete = isSoftDelete };
+            var command = new DeleteUserCommand(id, isSoftDelete);
 
             Response result = await Mediator.Send(command, ct);
             return Ok(result);

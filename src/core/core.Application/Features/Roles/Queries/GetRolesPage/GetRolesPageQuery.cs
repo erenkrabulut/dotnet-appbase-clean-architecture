@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Queries.GetRolesPage
 {
-    public sealed class GetRolesPageQuery : IPagedRequest<Response<PageResponse<RoleDto>>>, ISecuredRequest
+    public sealed record GetRolesPageQuery(PageRequest? PageRequest = null)
+        : IPagedRequest<Response<PageResponse<RoleDto>>>, ISecuredRequest
     {
-        public PageRequest PageRequest { get; init; } = new();
-        IReadOnlyCollection<string> ISecuredRequest.Permissions => 
-            new[] { RolesPermissions.Admin, RolesPermissions.Read
-    };
-}
+        public PageRequest PageRequest { get; init; } = PageRequest ?? new PageRequest();
+
+        IReadOnlyCollection<string> ISecuredRequest.Permissions =>
+            new[] { RolesPermissions.Admin, RolesPermissions.Read };
+    }
 }
