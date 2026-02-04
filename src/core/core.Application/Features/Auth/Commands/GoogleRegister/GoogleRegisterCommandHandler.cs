@@ -6,6 +6,7 @@ using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Application.Common.Responses;
 using core.Application.Features.Auth.Dtos;
+using core.Domain.Constants;
 using core.Domain.Entities.Identity;
 using core.Domain.Errors;
 using core.Domain.Security;
@@ -26,6 +27,8 @@ namespace core.Application.Features.Auth.Commands.GoogleRegister
         private readonly IIdentityClaimsService _identityClaimsService;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ITokenService _tokenService;
+        private readonly IRoleService _roleService;
+        private readonly IUserRoleService _userRoleService;
 
         public GoogleRegisterCommandHandler(
             IExternalAuthService externalAuthService,
@@ -33,7 +36,9 @@ namespace core.Application.Features.Auth.Commands.GoogleRegister
             IUserLoginService userLoginService,
             IIdentityClaimsService identityClaimsService,
             IRefreshTokenService refreshTokenService,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IRoleService roleService,
+            IUserRoleService userRoleService)
         {
             _externalAuthService = externalAuthService;
             _userService = userService;
@@ -41,6 +46,8 @@ namespace core.Application.Features.Auth.Commands.GoogleRegister
             _identityClaimsService = identityClaimsService;
             _refreshTokenService = refreshTokenService;
             _tokenService = tokenService;
+            _roleService = roleService;
+            _userRoleService = userRoleService;
         }
 
         public async Task<Response<TokenPairDto>> Handle(GoogleRegisterCommand request, CancellationToken cancellationToken)
@@ -75,6 +82,17 @@ namespace core.Application.Features.Auth.Commands.GoogleRegister
             };
 
             await _userService.CreateAsync(user, cancellationToken);
+
+            var defaultUserRole = await _roleService.TryGetByNameAsync(RoleNames.User, cancellationToken);
+
+            if (defaultUserRole != null)
+            {
+                bool alreadyLinked = await _userRoleService.IsRoleAssignedToUserAsync(user.Id, defaultUserRole.Id, cancellationToken);
+                if (!alreadyLinked)
+                {
+                    await _userRoleService.AddRoleToUserAsync(user.Id, defaultUserRole.Id, cancellationToken);
+                }
+            }
 
             var login = new UserLogin(
                 userId: user.Id,
