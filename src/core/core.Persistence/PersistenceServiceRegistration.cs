@@ -52,6 +52,8 @@ namespace core.Persistence
             // Seed
             services.AddScoped<ISeedApplier, SeedApplier>();
             services.AddScoped<ISeeder, PermissionSeeder>();
+            services.AddScoped<ISeeder, RoleSeeder>();
+            services.AddScoped<ISeeder, RolePermissionSeeder>();
             services.AddScoped<IMigrationApplier, MigrationApplier>();
 
             return services;
