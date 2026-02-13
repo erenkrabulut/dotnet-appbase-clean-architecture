@@ -39,7 +39,6 @@ namespace core.Persistence.Repositories
             entity.CreatedAt = DateTime.UtcNow;
 
             await _set.AddAsync(entity, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
@@ -52,7 +51,6 @@ namespace core.Persistence.Repositories
             }
 
             await _set.AddRangeAsync(entities, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
 
             return entities;
         }
@@ -62,7 +60,6 @@ namespace core.Persistence.Repositories
             entity.UpdatedAt = DateTime.UtcNow;
 
             _set.Update(entity);
-            await _context.SaveChangesAsync(cancellationToken);
 
             return entity;
         }
@@ -74,7 +71,6 @@ namespace core.Persistence.Repositories
             }
 
             _set.UpdateRange(entities);
-            await _context.SaveChangesAsync(cancellationToken);
 
             return entities;
         }
@@ -94,7 +90,6 @@ namespace core.Persistence.Repositories
                 _set.Remove(entity);
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
             return entity;
         }
 
@@ -115,7 +110,6 @@ namespace core.Persistence.Repositories
                 _set.RemoveRange(entities);
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
             return entities;
         }
 
