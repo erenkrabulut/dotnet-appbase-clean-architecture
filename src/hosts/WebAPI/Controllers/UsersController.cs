@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             var query = new GetUserByIdQuery(id);
             Response<UserDto> result = await Mediator.Send(query, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpGet("by-email/{email}")]
@@ -33,21 +33,21 @@ namespace WebAPI.Controllers
         {
             var query = new GetUserByEmailQuery(email);
             Response<UserDto> result = await Mediator.Send(query, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPage([FromQuery] GetUsersPageQuery query, CancellationToken ct)
         {
             Response<PageResponse<UserDto>> result = await Mediator.Send(query, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command, CancellationToken ct)
         {
             Response<UserDto> result = await Mediator.Send(command, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPut("{id:guid}")]
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
             var enriched = command with { Id = id };
 
             Response<UserDto> result = await Mediator.Send(enriched, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpDelete("{id:guid}")]
@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
             var command = new DeleteUserCommand(id, isSoftDelete);
 
             Response result = await Mediator.Send(command, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
     }
 }

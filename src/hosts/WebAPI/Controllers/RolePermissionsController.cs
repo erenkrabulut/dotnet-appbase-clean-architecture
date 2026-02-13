@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetRolePermissions([FromRoute] Guid roleId)
         {
             var response = await Mediator.Send(new GetPermissionsByRoleIdQuery(roleId));
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { RoleId = roleId };
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpDelete("{permissionId:int}")]
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
             [FromRoute] int permissionId)
         {
             var response = await Mediator.Send(new RemovePermissionFromRoleCommand(roleId, permissionId));
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPut]
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { RoleId = roleId};
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
     }
 }

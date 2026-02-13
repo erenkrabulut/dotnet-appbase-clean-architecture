@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using core.Application.Common.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,5 +52,37 @@ namespace WebAPI.Controllers
                 SameSite = SameSiteMode.Strict
             });
         }
+
+        protected IActionResult ToActionResult(Response? response)
+        {
+            if (response == null) {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            int statusCode = (response.Error?.Status) ?? StatusCodes.Status500InternalServerError;
+            return StatusCode(statusCode, response);
+        }
+
+        protected IActionResult ToActionResult<T>(Response<T>? response)
+        {
+            if (response == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            int statusCode = (response.Error?.Status) ?? StatusCodes.Status500InternalServerError;
+            return StatusCode(statusCode, response);
+
+        }   
     }
 }

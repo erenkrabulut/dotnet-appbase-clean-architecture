@@ -20,14 +20,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             Response<PermissionDto> response = await Mediator.Send(new GetPermissionByIdQuery(id));
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetPage([FromQuery] GetPermissionsPageQuery query)
         {
             Response<PageResponse<PermissionDto>> response = await Mediator.Send(query);
-            return Ok(response);
+            return ToActionResult(response);
         }
         
     }
