@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
             }
 
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPost("login")]
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
             }
 
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPost("refresh")]
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
             }
 
-            return Ok(result);
+            return ToActionResult(result);
 
         }
         
@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
             Response result = await Mediator.Send(enrichedCommand, ct);
             
             DeleteRefreshTokenCookie();
-            return Ok(result);
+            return ToActionResult(result);
         }
 
 
@@ -91,7 +91,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command, CancellationToken ct)
         {
             Response result = await Mediator.Send(command, ct);
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPost("google/login")]
@@ -110,7 +110,7 @@ namespace WebAPI.Controllers
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
             }
 
-            return Ok(result);
+            return ToActionResult(result);
         }
 
         [HttpPost("google/register")]
@@ -123,7 +123,7 @@ namespace WebAPI.Controllers
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
             }
 
-            return Ok(result);
+            return ToActionResult(result);
         }
     }
 }

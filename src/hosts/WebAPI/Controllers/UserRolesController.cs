@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetUserRoles([FromRoute] Guid userId)
         {
             var response = await Mediator.Send(new GetUserRolesByUserIdQuery(userId));
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPost]
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { UserId = userId };
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpDelete("{roleId:guid}")]
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         {
             var response = await Mediator.Send(new RemoveRoleFromUserCommand(userId, roleId));
 
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPut]
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { UserId = userId };
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
     }
 }

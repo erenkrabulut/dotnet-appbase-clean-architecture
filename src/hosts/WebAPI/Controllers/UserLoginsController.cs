@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetUserLogins([FromRoute] Guid userId)
         {
             var response = await Mediator.Send(new GetUserLoginsByUserIdQuery(userId));
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPost("link")]
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { UserId = userId };
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
 
         [HttpPost("unlink")]
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         {
             var enrichedCommand = command with { UserId = userId };
             var response = await Mediator.Send(enrichedCommand);
-            return Ok(response);
+            return ToActionResult(response);
         }
     }
 }
