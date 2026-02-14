@@ -1,4 +1,5 @@
 ﻿using core.Application.Abstractions.Services.Identity;
+using core.Domain.Entities.Identity;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,10 @@ namespace core.Application.Features.Users.Commands.CreateUser
                 .EmailAddress()
                 .MustAsync(async (email, ct) =>
                 {
-                    await userService.EnsureEmailUniqueAsync(email, ct);
-                    return true;
-                });
+                    User? byEmail = await userService.TryGetByEmailAsync(email, ct);
+                    return byEmail is null;
+                })
+                .WithMessage("Email already exists.");
 
             RuleFor(x => x.FirstName)
                 .NotEmpty()

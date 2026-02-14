@@ -22,9 +22,10 @@ namespace core.Application.Features.Roles.Commands.CreateRole
             RuleFor(x => x.Name)
                 .MustAsync(async (name, ct) =>
                 {
-                    await roleService.EnsureNameUniqueAsync(name, ct);
-                    return true;
-                });
+                    var existing = await roleService.TryGetByNameAsync(name, ct);
+                    return existing is null;
+                })
+                .WithMessage("Role name already exists.");
         }
 
     }

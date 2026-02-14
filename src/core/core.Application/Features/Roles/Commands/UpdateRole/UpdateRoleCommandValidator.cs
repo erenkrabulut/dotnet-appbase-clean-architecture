@@ -31,12 +31,13 @@ namespace core.Application.Features.Roles.Commands.UpdateRole
                     }
 
                     if (!string.Equals(existing.Name, name, System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        await roleService.EnsureNameUniqueAsync(name, ct);
-                    }
+                        return true;
 
-                    return true;
-                });
+                    var byName = await roleService.TryGetByNameAsync(name, ct);
+                    return byName is null;
+
+                })
+                .WithMessage("Role name already exists.");
         }
 
     }
