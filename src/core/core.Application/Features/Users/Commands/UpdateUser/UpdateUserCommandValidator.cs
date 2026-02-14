@@ -31,12 +31,13 @@ namespace core.Application.Features.Users.Commands.UpdateUser
                         return true;
                     }
 
-                    if (!string.Equals(existing.Email, email, System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        await userService.EnsureEmailUniqueAsync(email, ct);
-                    }
+                    if (string.Equals(existing.Email, email, StringComparison.OrdinalIgnoreCase))
+                        return true;
 
-                    return true;
+
+
+                    User? byEmail = await userService.TryGetByEmailAsync(email, ct);
+                    return byEmail is null;
                 });
 
             RuleFor(x => x.FirstName)
