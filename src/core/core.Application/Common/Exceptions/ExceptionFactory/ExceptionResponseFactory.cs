@@ -31,6 +31,7 @@ namespace core.Application.Common.Exceptions.ExceptionFactory
                 ErrorType.Business => 400,
                 ErrorType.External => 503,
                 ErrorType.Persistence => 500,
+                ErrorType.Identity => 400,
                 _ => 500
             };
 
@@ -43,6 +44,7 @@ namespace core.Application.Common.Exceptions.ExceptionFactory
                 ErrorType.Business => "Business error",
                 ErrorType.External => "External service error",
                 ErrorType.Persistence => "Persistence error",
+                ErrorType.Identity => "Identity error",
                 _ => "Internal error"
             };
 
