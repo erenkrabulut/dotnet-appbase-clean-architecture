@@ -10,6 +10,6 @@ using System.Threading.Tasks;
 
 namespace core.Application.Features.Auth.Commands.ChangePassword
 {
-    public sealed record ChangePasswordCommand(string CurrentPassword, string NewPassword)
+    public sealed record ChangePasswordCommand(string CurrentPassword, string NewPassword, string? IpAddress)
         : ICommand<Response>, ILoggableRequest, ITransactionalRequest;
 }
