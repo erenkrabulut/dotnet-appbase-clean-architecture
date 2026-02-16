@@ -76,7 +76,7 @@ namespace core.Persistence.Services.Identity
 
             bool roleExists = await _roleRepository.Query().AsNoTracking().AnyAsync(x => x.Id == roleId, ct);
             if (!roleExists)
-                throw new NotFoundException(IdentityErrors.User.NotFound);
+                throw new NotFoundException(IdentityErrors.Role.NotFound);
 
             var userRole = await _userRoleRepository.GetAsync(
                 x => x.UserId == userId && x.RoleId == roleId,
