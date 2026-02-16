@@ -11,8 +11,10 @@ namespace core.Application.Common.Security
     public static class PermissionCatalog
     {
 
-        private static readonly Lazy<string[]> _all = new Lazy<string[]>(GetAll, isThreadSafe: true);
-        
+        private static readonly Lazy<string[]> _all =
+            new Lazy<string[]>(LoadAll, isThreadSafe: true);
+
+        public static string[] GetAll() => _all.Value;
 
         public static string[] GetAdmins()
             => GetAll()
@@ -44,7 +46,7 @@ namespace core.Application.Common.Security
                 .Where(x => x.EndsWith(".delete", StringComparison.Ordinal))
                 .ToArray();
 
-        public static string[] GetAll()
+        private static string[] LoadAll()
         {
             Assembly assembly = typeof(PermissionCatalog).Assembly;
 
