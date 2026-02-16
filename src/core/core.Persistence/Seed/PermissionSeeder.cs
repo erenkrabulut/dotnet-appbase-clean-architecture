@@ -27,8 +27,9 @@ namespace core.Persistence.Seed
             var desired = PermissionCatalog.GetAll();
 
             var existing = await _db.Set<Permission>()
-                .Select(x => x.Name)
-                .ToListAsync(ct);
+            .IgnoreQueryFilters()
+            .Select(x => x.Name)
+            .ToListAsync(ct);
 
             var missing = desired
                 .Except(existing, StringComparer.Ordinal)
