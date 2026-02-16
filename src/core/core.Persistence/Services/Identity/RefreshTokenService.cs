@@ -34,14 +34,16 @@ namespace core.Persistence.Services.Identity
             return token;
         }
 
-        public Task<RefreshToken?> TryGetByTokenAsync(string token, CancellationToken ct = default)
+        
+        // Also calls to get by token hash. may be deprecated later.
+        public Task<RefreshToken?> TryGetByTokenAsync(string tokenHash, CancellationToken ct = default)
         {
-            return TryGetByTokenHashAsync(token, ct);
+            return TryGetByTokenHashAsync(tokenHash, ct);
         }
 
-        public async Task<RefreshToken> GetByTokenAsync(string token, CancellationToken ct = default)
+        public async Task<RefreshToken> GetByTokenHashAsync(string tokenHash, CancellationToken ct = default)
         {
-            RefreshToken? existing = await TryGetByTokenAsync(token, ct);
+            RefreshToken? existing = await TryGetByTokenHashAsync(tokenHash, ct);
             if (existing is null)
                 throw new NotFoundException();
 
@@ -71,7 +73,7 @@ namespace core.Persistence.Services.Identity
             string? replacedByTokenHash = null,
             CancellationToken ct = default)
         {
-            RefreshToken? refreshToken = await GetByTokenAsync(tokenHash, ct);
+            RefreshToken? refreshToken = await GetByTokenHashAsync(tokenHash, ct);
 
             if (refreshToken.IsRevoked)
                 return refreshToken;
