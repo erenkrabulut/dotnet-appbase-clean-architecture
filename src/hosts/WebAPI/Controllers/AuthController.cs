@@ -23,7 +23,9 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterCommand command, CancellationToken ct)
         {
-            Response<TokenPairDto> result = await Mediator.Send(command, ct);
+            var enrichedCommand = command with { IpAddress = GetClientIpAddress() };
+
+            Response<TokenPairDto> result = await Mediator.Send(enrichedCommand, ct);
             if (result.Success && result?.Data?.RefreshToken is not null)
             {
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
@@ -90,7 +92,9 @@ namespace WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command, CancellationToken ct)
         {
-            Response result = await Mediator.Send(command, ct);
+            var enrichedCommand = command with { IpAddress = GetClientIpAddress() };
+
+            Response result = await Mediator.Send(enrichedCommand, ct);
             return ToActionResult(result);
         }
 
@@ -117,7 +121,9 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GoogleRegister([FromBody] GoogleRegisterCommand command, CancellationToken ct)
         {
-            Response<TokenPairDto> result = await Mediator.Send(command, ct);
+            var enrichedCommand = command with { IpAddress = GetClientIpAddress() };
+
+            Response<TokenPairDto> result = await Mediator.Send(enrichedCommand, ct);
             if (result.Success && result?.Data?.RefreshToken is not null)
             {
                 SetRefreshTokenCookie(result.Data.RefreshToken, result.Data.RefreshTokenExpiresAt);
