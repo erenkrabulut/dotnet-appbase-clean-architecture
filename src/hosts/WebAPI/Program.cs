@@ -1,128 +1,57 @@
 using core.Application;
 using core.Infrastructure;
-using core.Infrastructure.Security.Tokens;
 using core.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
-using System.Text.Json.Serialization;
+using Serilog;
 using WebAPI.Extensions;
+using System;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-
-builder.Services.AddControllers()
-    .AddJsonOptions(o =>
-    {
-        o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    });
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+try
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "core.WebAPI", Version = "v1" });
+    var builder = WebApplication.CreateBuilder(args);
 
-    var scheme = new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Description = "Enter: Bearer {your JWT token}",
-        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-    };
+    builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+        .WriteTo.Console());
 
-    c.AddSecurityDefinition("Bearer", scheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        { scheme, Array.Empty<string>() }
-    });
-});
-
-builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddApplicationServices();
-builder.Services.AddPersistenceServices(builder.Configuration);
-
-builder.Services.AddInfrastructureServices(jwt =>
-{
-    builder.Configuration.GetSection("JwtOptions").Bind(jwt);
-});
-
-
-var jwtOptions = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>()
-          ?? throw new InvalidOperationException("JwtOptions is missing in configuration.");
-
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false; // dev-friendly; true in prod
-        options.SaveToken = true;
-
-        options.TokenValidationParameters = new TokenValidationParameters
+    // 1. Register Services
+    builder.Services
+        .AddApplicationServices()
+        .AddPersistenceServices(builder.Configuration)
+        .AddInfrastructureServices(jwt =>
         {
-            ValidateIssuer = true,
-            ValidIssuer = jwtOptions.Issuer,
+            builder.Configuration.GetSection("JwtOptions").Bind(jwt);
+        })
+        .AddApiServices(builder.Configuration, builder.Environment);
 
-            ValidateAudience = true,
-            ValidAudience = jwtOptions.Audience,
+    var app = builder.Build();
 
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+    // 2. Database Initialization
+    // Warning: AutoMigrate on startup is unsafe for multi-instance production environments.
+    if (app.Environment.IsDevelopment() || builder.Configuration.GetValue("Database:AutoMigrate", false))
+    {
+        if (!app.Environment.IsDevelopment())
+        {
+            Log.Warning("Executing database migrations in non-development environment on startup. Consider moving this to a dedicated CI/CD step.");
+        }
+        await app.InitializeDatabaseAsync(builder.Configuration);
+    }
 
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(1)
-        };
-    });
+    // 3. Configure Pipeline
+    app.UseApiPipeline();
 
-builder.Services.AddAuthorization();
-
-
-
-var app = builder.Build();
-
-
-await app.InitializeDatabaseAsync(builder.Configuration);
-
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-
-// HEADER METADATA HANDLING.
-var forwardedOptions = new ForwardedHeadersOptions
+catch (Exception ex)
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-};
-
-// If you are behind a known proxy / load balancer, prefer locking this down
-// forwardedOptions.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
-// forwardedOptions.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.0.0"), 8));
-
-// If you can't lock down yet, you may need this temporarily (less secure):
-forwardedOptions.KnownNetworks.Clear();
-forwardedOptions.KnownProxies.Clear();
-
-app.UseForwardedHeaders(forwardedOptions);
-
-
-app.Run();
-
-
-
-
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
