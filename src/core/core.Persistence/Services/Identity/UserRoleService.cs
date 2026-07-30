@@ -4,11 +4,6 @@ using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Domain.Entities.Identity;
 using core.Domain.Errors;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Services.Identity
 {
@@ -63,7 +58,7 @@ namespace core.Persistence.Services.Identity
                 .AnyAsync(x => x.UserId == userId && x.RoleId == roleId, ct);
 
             if (alreadyAssigned)
-                return; 
+                return;
 
             await _userRoleRepository.AddAsync(new UserRole(userId, roleId), ct);
         }

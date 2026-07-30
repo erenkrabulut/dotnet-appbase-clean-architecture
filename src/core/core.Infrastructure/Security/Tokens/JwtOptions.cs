@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace core.Infrastructure.Security.Tokens
+﻿namespace core.Infrastructure.Security.Tokens
 {
     public sealed class JwtOptions
     {
@@ -12,6 +6,6 @@ namespace core.Infrastructure.Security.Tokens
         public string Audience { get; init; } = null!;
         public string SecretKey { get; init; } = null!;
         public int AccessTokenMinutes { get; init; }
-        public int RefreshTokenTTL {  get; init; }
+        public int RefreshTokenTTL { get; init; }
     }
 }

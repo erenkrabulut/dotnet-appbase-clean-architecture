@@ -5,15 +5,8 @@ using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Application.Common.Responses;
 using core.Application.Features.Auth.Dtos;
-using core.Domain.Entities.Identity;
 using core.Domain.Errors;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Auth.Commands.Refresh
 {
@@ -39,14 +32,16 @@ namespace core.Application.Features.Auth.Commands.Refresh
             _loggerService = loggerService;
         }
 
-        public async Task<Response<TokenPairDto>> Handle(RefreshCommand request, CancellationToken cancellationToken = default) {
+        public async Task<Response<TokenPairDto>> Handle(RefreshCommand request, CancellationToken cancellationToken = default)
+        {
             string presentedHash = _tokenService.HashRefreshToken(request.RefreshToken);
 
             var existing = await _refreshTokenService.TryGetByTokenHashAsync(presentedHash, cancellationToken);
             if (existing == null)
                 throw new NotFoundException(IdentityErrors.RefreshToken.NotFound);
 
-            if (existing.IsRevoked) { 
+            if (existing.IsRevoked)
+            {
                 await _refreshTokenService.RevokeAllByUserIdAsync(
                     userId: existing.UserId,
                     ipAddress: request.IpAddress ?? string.Empty,
@@ -61,17 +56,17 @@ namespace core.Application.Features.Auth.Commands.Refresh
 
                 throw new AuthorizationException(AuthErrors.NotAuthorized);
             }
-            
+
 
             if (existing.IsExpired)
                 throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var user = await _userService.TryGetByIdAsync(existing.UserId, cancellationToken);
 
-            if(user == null)
+            if (user == null)
                 throw new NotFoundException(IdentityErrors.User.NotFound);
-            
-            if(!user.IsActive)
+
+            if (!user.IsActive)
                 throw new AuthorizationException(AuthErrors.NotAuthorized);
 
 
@@ -112,6 +107,6 @@ namespace core.Application.Features.Auth.Commands.Refresh
 
         }
 
-        
+
     }
 }

@@ -1,6 +1,6 @@
 # dotnet-appbase-clean-architecture
 
-Base **.NET 8** Clean Architecture template with:
+Base **.NET 10** Clean Architecture template with:
 
 - **CQRS** with MediatR
 - **Validation** with FluentValidation (pipeline behavior)

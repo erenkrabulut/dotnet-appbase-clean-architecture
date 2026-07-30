@@ -6,13 +6,7 @@ using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Application.Common.Responses;
 using core.Application.Features.Auth.Dtos;
 using core.Domain.Errors;
-using core.Domain.Security;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Auth.Commands.Login
 {
@@ -51,7 +45,7 @@ namespace core.Application.Features.Auth.Commands.Login
             if (!user.IsActive)
                 throw new AuthorizationException(AuthErrors.NotAuthorized);
 
-            if(user.PasswordHash is null)
+            if (user.PasswordHash is null)
                 throw new AuthorizationException(AuthErrors.NotAuthorized);
 
             var valid = _passwordHasher.Verify(request.Password, user.PasswordHash);

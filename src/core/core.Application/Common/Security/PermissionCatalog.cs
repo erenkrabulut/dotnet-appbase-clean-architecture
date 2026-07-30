@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace core.Application.Common.Security
 {
@@ -53,15 +48,15 @@ namespace core.Application.Common.Security
             var values = assembly
                 .GetTypes()
                 .Where(t =>
-                    t is { IsClass: true, IsAbstract: true } 
-                    && t.Name.EndsWith("Permissions", StringComparison.Ordinal) 
+                    t is { IsClass: true, IsAbstract: true }
+                    && t.Name.EndsWith("Permissions", StringComparison.Ordinal)
                     && (t.Namespace?.Contains(".Features.", StringComparison.Ordinal) ?? false)
                 )
                 .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy))
                 .Where(f =>
                     f.FieldType == typeof(string)
                     && f.IsLiteral
-                    && !f.IsInitOnly 
+                    && !f.IsInitOnly
                 )
                 .Select(f => (string)f.GetRawConstantValue()!)
                 .Where(s => !string.IsNullOrWhiteSpace(s))

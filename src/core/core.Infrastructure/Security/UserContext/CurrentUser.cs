@@ -1,16 +1,11 @@
 ﻿using core.Application.Abstractions.Security.UserContext;
 using core.Infrastructure.Security.Tokens;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Infrastructure.Security.UserContext
 {
-    public class CurrentUser: ICurrentUser
+    public class CurrentUser : ICurrentUser
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

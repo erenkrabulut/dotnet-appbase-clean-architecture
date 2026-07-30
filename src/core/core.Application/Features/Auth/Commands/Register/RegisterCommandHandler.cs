@@ -6,13 +6,7 @@ using core.Application.Common.Responses;
 using core.Application.Features.Auth.Dtos;
 using core.Domain.Constants;
 using core.Domain.Entities.Identity;
-using core.Domain.Security;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Auth.Commands.Register
 {
@@ -66,7 +60,7 @@ namespace core.Application.Features.Auth.Commands.Register
 
             user = await _userService.CreateAsync(user, cancellationToken);
 
-            
+
             var defaultUserRole = await _roleService.TryGetByNameAsync(RoleNames.User, cancellationToken);
 
             if (defaultUserRole != null)

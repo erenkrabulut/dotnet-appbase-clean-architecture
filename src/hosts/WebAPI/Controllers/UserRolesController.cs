@@ -1,11 +1,8 @@
-﻿    using core.Application.Common.Responses;
-using core.Application.Features.Roles.Dtos;
-using core.Application.Features.UserRoles.Commands.AddRoleToUser;
+﻿using core.Application.Features.UserRoles.Commands.AddRoleToUser;
 using core.Application.Features.UserRoles.Commands.RemoveRoleFromUser;
 using core.Application.Features.UserRoles.Commands.ReplaceUserRoles;
 using core.Application.Features.UserRoles.Queries.GetUserRolesByUserId;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

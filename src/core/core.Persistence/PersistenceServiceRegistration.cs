@@ -1,8 +1,8 @@
-﻿using core.Application.Abstractions.Repositories.Identity;
+using core.Application.Abstractions.Repositories.Identity;
 using core.Application.Abstractions.Services.Identity;
 using core.Application.Abstractions.Services.Seed;
 using core.Application.Abstractions.Transactions;
-using core.Infrastructure.Transactions;
+using core.Persistence.Transactions;
 using core.Persistence.Contexts;
 using core.Persistence.Repositories.Identity;
 using core.Persistence.Seed;
@@ -10,11 +10,6 @@ using core.Persistence.Services.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence
 {

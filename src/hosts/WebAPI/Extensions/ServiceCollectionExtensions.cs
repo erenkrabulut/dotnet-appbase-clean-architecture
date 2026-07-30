@@ -1,9 +1,3 @@
-using core.Application;
-using core.Infrastructure;
-using core.Persistence;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
 
 namespace WebAPI.Extensions
@@ -20,10 +14,10 @@ namespace WebAPI.Extensions
                 });
 
             services.AddHttpContextAccessor();
-            
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerConfiguration();
-            
+
             services.AddApiCors(configuration);
             services.AddApiRateLimiting(configuration);
             services.AddApiHealthChecks();

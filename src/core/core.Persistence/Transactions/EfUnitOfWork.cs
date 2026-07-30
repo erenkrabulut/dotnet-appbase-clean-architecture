@@ -1,15 +1,10 @@
-﻿using core.Application.Abstractions.Transactions;
+using core.Application.Abstractions.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace core.Infrastructure.Transactions
+namespace core.Persistence.Transactions
 {
-    public class EfUnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
+    public class EfUnitOfWork<TContext> : IUnitOfWork, IDisposable, IAsyncDisposable where TContext : DbContext
     {
         private readonly TContext _context;
         private IDbContextTransaction? _transaction;
@@ -49,6 +44,14 @@ namespace core.Infrastructure.Transactions
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
             => _context.SaveChangesAsync(cancellationToken);
 
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
 
+        public async ValueTask DisposeAsync()
+        {
+            await _context.DisposeAsync();
+        }
     }
 }

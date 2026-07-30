@@ -8,7 +8,6 @@ using core.Application.Features.Users.Queries.GetUserByEmail;
 using core.Application.Features.Users.Queries.GetUserById;
 using core.Application.Features.Users.Queries.GetUsersPage;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

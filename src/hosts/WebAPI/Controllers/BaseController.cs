@@ -1,6 +1,5 @@
 ﻿using core.Application.Common.Responses;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -35,7 +34,7 @@ namespace WebAPI.Controllers
             {
                 HttpOnly = true,
                 Expires = expiresUtc,
-                Secure = true,                    
+                Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Path = "/"
             };
@@ -55,7 +54,8 @@ namespace WebAPI.Controllers
 
         protected IActionResult ToActionResult(Response? response)
         {
-            if (response == null) {
+            if (response == null)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
@@ -83,6 +83,6 @@ namespace WebAPI.Controllers
             int statusCode = (response.Error?.Status) ?? StatusCodes.Status500InternalServerError;
             return StatusCode(statusCode, response);
 
-        }   
+        }
     }
 }

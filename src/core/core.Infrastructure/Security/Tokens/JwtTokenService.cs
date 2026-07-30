@@ -40,7 +40,7 @@ namespace core.Infrastructure.Security.Tokens
              );
 
             tokenClaims.AddRange(
-                claims.Permissions.Select( p => new Claim(CustomClaimTypes.Permission, p))
+                claims.Permissions.Select(p => new Claim(CustomClaimTypes.Permission, p))
              );
 
             var key = new SymmetricSecurityKey(

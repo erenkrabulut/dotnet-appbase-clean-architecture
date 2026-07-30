@@ -1,11 +1,6 @@
 ﻿using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Responses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.RolePermissions.Commands.RemovePermissionFromRole
 {

@@ -3,7 +3,6 @@ using core.Infrastructure;
 using core.Persistence;
 using Serilog;
 using WebAPI.Extensions;
-using System;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

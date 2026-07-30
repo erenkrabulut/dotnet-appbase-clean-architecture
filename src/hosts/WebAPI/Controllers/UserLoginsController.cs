@@ -1,7 +1,6 @@
 ﻿using core.Application.Features.UserLogins.Commands.LinkLoginToUser;
 using core.Application.Features.UserLogins.Commands.UnlinkLoginToUser;
 using core.Application.Features.UserLogins.Queries.GetUserLoginsByUserId;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

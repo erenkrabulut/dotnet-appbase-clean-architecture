@@ -7,6 +7,6 @@ using core.Application.Features.Auth.Dtos;
 
 namespace core.Application.Features.Auth.Commands.Refresh
 {
-    public sealed record RefreshCommand(string RefreshToken, string? IpAddress) 
+    public sealed record RefreshCommand(string RefreshToken, string? IpAddress)
         : ICommand<Response<TokenPairDto>>, ILoggableRequest, ITransactionalRequest;
 }

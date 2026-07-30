@@ -2,11 +2,6 @@
 using core.Application.Abstractions.Security.IdentityClaims;
 using core.Application.Abstractions.Services.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Services.Identity
 {

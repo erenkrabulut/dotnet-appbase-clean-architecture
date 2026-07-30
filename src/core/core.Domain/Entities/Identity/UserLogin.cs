@@ -3,7 +3,7 @@ using core.Domain.Security;
 
 namespace core.Domain.Entities.Identity
 {
-    public class UserLogin: Entity<Guid>
+    public class UserLogin : Entity<Guid>
     {
         public Guid UserId { get; set; }
         public AuthenticationProvider Provider { get; set; }

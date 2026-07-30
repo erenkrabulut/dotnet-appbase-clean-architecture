@@ -2,12 +2,6 @@
 using core.Application.Abstractions.Services.Identity;
 using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Domain.Entities.Identity;
-using core.Domain.Errors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Services.Identity
 {
@@ -34,7 +28,7 @@ namespace core.Persistence.Services.Identity
             return token;
         }
 
-        
+
         // Also calls to get by token hash. may be deprecated later.
         public Task<RefreshToken?> TryGetByTokenAsync(string tokenHash, CancellationToken ct = default)
         {
@@ -86,7 +80,7 @@ namespace core.Persistence.Services.Identity
             refreshToken = await _refreshTokenRepository.UpdateAsync(refreshToken, ct);
             return refreshToken;
         }
-        
+
 
         public async Task DeleteAsync(Guid id, bool isSoftDelete = true, CancellationToken ct = default)
         {

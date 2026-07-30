@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Threading.RateLimiting;
 
 namespace WebAPI.Extensions
@@ -33,7 +28,7 @@ namespace WebAPI.Extensions
                             Window = TimeSpan.FromMinutes(windowMinutes)
                         });
                 });
-                
+
                 // Return 429 instead of 503
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });

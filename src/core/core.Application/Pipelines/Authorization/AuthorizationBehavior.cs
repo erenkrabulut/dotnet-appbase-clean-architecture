@@ -3,11 +3,6 @@ using core.Application.Abstractions.Security.UserContext;
 using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Domain.Errors;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Pipelines.Authorization
 {

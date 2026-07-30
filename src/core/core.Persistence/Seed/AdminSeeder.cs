@@ -2,14 +2,8 @@
 using core.Application.Abstractions.Services.Seed;
 using core.Domain.Constants;
 using core.Domain.Entities.Identity;
-using core.Domain.Security;
 using core.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Seed
 {
@@ -41,7 +35,7 @@ namespace core.Persistence.Seed
                 .FirstOrDefaultAsync(x => x.Name == RoleNames.Admin, ct);
 
             if (adminRole is null)
-                return; 
+                return;
 
             string passwordHash = _passwordHasher.Hash(DefaultAdminDefaults.Password);
 

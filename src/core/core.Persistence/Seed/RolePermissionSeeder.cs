@@ -4,11 +4,6 @@ using core.Domain.Constants;
 using core.Domain.Entities.Identity;
 using core.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Seed
 {
@@ -36,13 +31,13 @@ namespace core.Persistence.Seed
             if (adminRole is null || userRole is null)
                 return;
 
-            var adminDesiredNames = PermissionCatalog.GetAdmins(); 
-            var userDesiredNames = PermissionCatalog.GetReads();   
+            var adminDesiredNames = PermissionCatalog.GetAdmins();
+            var userDesiredNames = PermissionCatalog.GetReads();
 
             if (adminDesiredNames.Length == 0 && userDesiredNames.Length == 0)
                 return;
 
-            
+
             var desiredNames = adminDesiredNames
                 .Concat(userDesiredNames)
                 .Distinct(StringComparer.Ordinal)
@@ -54,7 +49,7 @@ namespace core.Persistence.Seed
                 .ToDictionaryAsync(x => x.Name, x => x.Id, StringComparer.Ordinal, ct);
 
 
-            var desiredPairs = new List<(Guid RoleId,int PermissionId)>();
+            var desiredPairs = new List<(Guid RoleId, int PermissionId)>();
 
             foreach (var name in adminDesiredNames)
             {
