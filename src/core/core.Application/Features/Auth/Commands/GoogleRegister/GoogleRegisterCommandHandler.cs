@@ -11,11 +11,6 @@ using core.Domain.Entities.Identity;
 using core.Domain.Errors;
 using core.Domain.Security;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Auth.Commands.GoogleRegister
 {

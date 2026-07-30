@@ -4,7 +4,7 @@
 
 namespace core.Domain.Entities.Identity
 {
-    public class User: Entity<Guid> 
+    public class User : Entity<Guid>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

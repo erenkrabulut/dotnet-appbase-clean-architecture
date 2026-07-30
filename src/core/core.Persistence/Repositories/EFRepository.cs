@@ -1,26 +1,21 @@
-﻿using core.Application.Abstractions.Repositories;
+using core.Application.Abstractions.Repositories;
 using core.Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Persistence.Repositories
 {
     public class EFRepository<TEntity, TId, TContext> : IRepository<TEntity, TId>
         where TEntity : Entity<TId>
-        where TContext: DbContext
+        where TContext : DbContext
     {
 
         protected readonly TContext _context;
-        protected readonly DbSet<TEntity> _set; 
+        protected readonly DbSet<TEntity> _set;
 
         public EFRepository(TContext context)
         {
-            _context = context; 
+            _context = context;
             _set = context.Set<TEntity>();
         }
 
@@ -45,7 +40,7 @@ namespace core.Persistence.Repositories
 
         public async Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            foreach(TEntity entity in entities)
+            foreach (TEntity entity in entities)
             {
                 entity.CreatedAt = DateTime.UtcNow;
             }
@@ -55,15 +50,15 @@ namespace core.Persistence.Repositories
             return entities;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             entity.UpdatedAt = DateTime.UtcNow;
 
             _set.Update(entity);
 
-            return entity;
+            return Task.FromResult(entity);
         }
-        public async Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities, CancellationToken cancellationToken = default)
+        public Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities, CancellationToken cancellationToken = default)
         {
             foreach (TEntity entity in entities)
             {
@@ -72,14 +67,14 @@ namespace core.Persistence.Repositories
 
             _set.UpdateRange(entities);
 
-            return entities;
+            return Task.FromResult(entities);
         }
 
-        public async Task<TEntity> DeleteAsync(TEntity entity, bool isSoftDelete, CancellationToken cancellationToken = default)
+        public Task<TEntity> DeleteAsync(TEntity entity, bool isSoftDelete, CancellationToken cancellationToken = default)
         {
             if (isSoftDelete)
             {
-                if(entity.DeletedAt == null)
+                if (entity.DeletedAt == null)
                 {
                     entity.DeletedAt = DateTime.UtcNow;
                     _set.Update(entity);
@@ -90,10 +85,10 @@ namespace core.Persistence.Repositories
                 _set.Remove(entity);
             }
 
-            return entity;
+            return Task.FromResult(entity);
         }
 
-        public async Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool isSoftDelete = true, CancellationToken cancellationToken = default)
+        public Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool isSoftDelete = true, CancellationToken cancellationToken = default)
         {
             if (isSoftDelete)
             {
@@ -110,7 +105,7 @@ namespace core.Persistence.Repositories
                 _set.RemoveRange(entities);
             }
 
-            return entities;
+            return Task.FromResult(entities);
         }
 
     }

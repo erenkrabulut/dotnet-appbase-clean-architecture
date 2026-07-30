@@ -3,11 +3,6 @@ using core.Application.Abstractions.Security.Authorization;
 using core.Application.Common.Responses;
 using core.Application.Features.UserRoles.Constants;
 using core.Application.Features.UserRoles.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.UserRoles.Queries.GetUserRolesByUserId
 {

@@ -1,14 +1,7 @@
-﻿using core.Application.Abstractions.Repositories.Identity;
-using core.Application.Abstractions.Security.ExternalAuthService;
+﻿using core.Application.Abstractions.Security.ExternalAuthService;
 using core.Application.Abstractions.Security.ExternalLoginService;
-using core.Application.Abstractions.Security.Token;
 using core.Application.Abstractions.Services.Identity;
 using Google.Apis.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Infrastructure.Security.ExternalAuthService
 {

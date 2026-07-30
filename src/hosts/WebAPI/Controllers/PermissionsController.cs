@@ -4,7 +4,6 @@ using core.Application.Features.Permissions.Dtos;
 using core.Application.Features.Permissions.Queries.GetPermissionById;
 using core.Application.Features.Permissions.Queries.GetPermissionPage;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -29,6 +28,6 @@ namespace WebAPI.Controllers
             Response<PageResponse<PermissionDto>> response = await Mediator.Send(query);
             return ToActionResult(response);
         }
-        
+
     }
 }

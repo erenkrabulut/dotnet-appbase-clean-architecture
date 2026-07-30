@@ -4,11 +4,6 @@ using core.Application.Common.Responses;
 using core.Application.Features.Roles.Dtos;
 using core.Domain.Entities.Identity;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Roles.Commands.UpdateRole
 {

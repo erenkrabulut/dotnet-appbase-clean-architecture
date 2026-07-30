@@ -7,7 +7,6 @@ using core.Application.Features.Roles.Dtos;
 using core.Application.Features.Roles.Queries.GetRoleByName;
 using core.Application.Features.Roles.Queries.GetRolesPage;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

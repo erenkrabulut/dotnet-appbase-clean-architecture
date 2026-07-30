@@ -8,7 +8,6 @@ using core.Application.Features.Auth.Commands.Refresh;
 using core.Application.Features.Auth.Commands.Register;
 using core.Application.Features.Auth.Dtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -71,8 +70,8 @@ namespace WebAPI.Controllers
             return ToActionResult(result);
 
         }
-        
-       
+
+
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout([FromBody] LogoutCommand command, CancellationToken ct)
@@ -82,7 +81,7 @@ namespace WebAPI.Controllers
                 IpAddress = GetClientIpAddress()
             };
             Response result = await Mediator.Send(enrichedCommand, ct);
-            
+
             DeleteRefreshTokenCookie();
             return ToActionResult(result);
         }

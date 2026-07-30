@@ -1,5 +1,4 @@
-﻿using core.Application.Abstractions.Services.Seed;
-using core.Application.Common.Exceptions.ExceptionFactory;
+﻿using core.Application.Common.Exceptions.ExceptionFactory;
 using core.Application.Pipelines.Authorization;
 using core.Application.Pipelines.ExceptionHandling;
 using core.Application.Pipelines.Logging;

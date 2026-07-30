@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using WebAPI.Middleware;
 
@@ -47,7 +45,7 @@ namespace WebAPI.Extensions
 
             // 9. Endpoints
             app.MapControllers();
-            
+
             app.MapHealthChecks("/health/live");
             app.MapHealthChecks("/health/ready"); // could be configured with distinct predicates
 

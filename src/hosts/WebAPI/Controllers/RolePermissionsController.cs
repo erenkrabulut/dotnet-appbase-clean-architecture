@@ -2,9 +2,7 @@
 using core.Application.Features.RolePermissions.Commands.RemovePermissionFromRole;
 using core.Application.Features.RolePermissions.Commands.ReplaceRolePermissions;
 using core.Application.Features.RolePermissions.Queries.GetPermissionsByRoleId;
-using core.Application.Features.UserRoles.Commands.ReplaceUserRoles;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -45,7 +43,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Replace([FromRoute] Guid roleId, [FromBody] ReplaceRolePermissionsCommand command)
         {
-            var enrichedCommand = command with { RoleId = roleId};
+            var enrichedCommand = command with { RoleId = roleId };
             var response = await Mediator.Send(enrichedCommand);
             return ToActionResult(response);
         }

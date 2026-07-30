@@ -4,11 +4,6 @@ using core.Application.Common.Paging;
 using core.Application.Common.Responses;
 using core.Application.Features.Permissions.Constants;
 using core.Application.Features.Permissions.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Features.Permissions.Queries.GetPermissionPage
 {

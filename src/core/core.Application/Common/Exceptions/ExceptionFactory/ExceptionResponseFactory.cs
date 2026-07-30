@@ -1,11 +1,6 @@
 ﻿using core.Application.Common.Exceptions.ExceptionTypes;
 using core.Application.Common.Responses;
 using core.Domain.Errors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Application.Common.Exceptions.ExceptionFactory
 {
